@@ -1,9 +1,9 @@
 public class DefaultCritter{
 	
-	private xCoord;
-	private yCoord;
-	private xVelocity;
-	private yVelocity;
+	private double xCoord;
+	private double yCoord;
+	private double xVelocity;
+	private double yVelocity;
 	
 	public DefaultCritter(){
 		
