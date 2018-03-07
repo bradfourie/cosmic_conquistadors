@@ -1,4 +1,4 @@
-public class Shooter{
+public class Shooter extends DefaultCritter{
 	
 	private Boolean isShoot;
 	private double xCoordTurret;
