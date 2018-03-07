@@ -1,8 +1,12 @@
 public class Missile extends DefaultCritter{
 	
-	private intialAngle;
+	private initialAngle;
 	
 	public Missile(){
 		
 	}
+	private bounce(){
+		
+	}
+		
 }
