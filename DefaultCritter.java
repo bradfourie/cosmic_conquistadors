@@ -8,4 +8,13 @@ public class DefaultCritter{
 	public DefaultCritter(){
 		
 	}
+	
+	public setCoords(double xCoord, double yCoord){
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+	}
+	public setVelocity(double xVelocity, double yVelocity){
+		this.xVelocity = xVelocity;
+		this.yVelocity = yVelocity;
+	}
 }
