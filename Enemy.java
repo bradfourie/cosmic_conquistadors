@@ -1,3 +1,6 @@
-public class Enemy{
+public class Enemy extends DefaultCritter {
 	
+	public Enemy(){
+		
+	}
 }
