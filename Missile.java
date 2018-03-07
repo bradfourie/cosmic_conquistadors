@@ -5,7 +5,7 @@ public class Missile extends DefaultCritter{
 	public Missile(){
 		
 	}
-	private bounce(){
+	private void bounce(){
 		
 	}
 		
