@@ -1,14 +1,27 @@
 public class Missile extends DefaultCritter{
 	
 	private initialAngle;
-	
-	public Missile(double intialAngle){
+
+	public Missile(double xCoord, double yCoord, double xVelocity, double yVelocity, double initialAngle){
+		double radius = 0.01
 		this.initialAngle = intialAngle;
+		super(xCoord, yCoord, xVelocity, yVelocity, radius);
 	}
-	private void wallBounce(){
-		//inverts x velocity
+	
+	/* Setters */
+	public void setInitialAngle(double initialAngle){
+		this.initialAngle = initialAngle;
 	}
-	private void move(){
+	
+	/* Getters */
+	public double getInitialAngle(){
+		return initialAngle;
+	}
+	
+	public void wallBounce(){
+		super.xVelocity = - super.xVelocity;
+	}
+	public void move(){
 		
 	}
 		
