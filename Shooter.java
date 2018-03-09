@@ -4,7 +4,7 @@ public class Shooter extends DefaultCritter{
     private double yCoordBarrel;
     private double radialVelocityBarrel;
     private double radiusBarrel
-	  private double angleBarrel; 
+    private double angleBarrel; 
 
     public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity){ 
         double radius = 0.05; // the radius of the Shooter is by default set to 0.05
