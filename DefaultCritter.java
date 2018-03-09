@@ -20,8 +20,10 @@ public class DefaultCritter{
 	}
 	
 	//getter for the coordinates
-	public double[] getCoords(){
-		double[] currentCoords = {xCoord, yCoord};
-		return currentCoords;
+	public double getyCoord(){
+		return yCoord;
+	}
+	public double getxCoord(){
+		return xCoord;
 	}
 }
