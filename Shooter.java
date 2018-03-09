@@ -34,19 +34,19 @@ public class Shooter extends DefaultCritter{
   }
   
   /* Getters */
-  public void getRadialVelocityBarrel(){
+  public double getRadialVelocityBarrel(){
     return radialVelocityBarrel;
   }
-  public void getRadiusBarrel(){
+  public double getRadiusBarrel(){
     return radiusBarrel;
   }
-  public void getAngleBarrel(){
+  public double getAngleBarrel(){
     return angleBarrel; 
   }
-  public void getXCoordBarrel(){
+  public double getXCoordBarrel(){
     return xCoordBarrel;
   }
-  public void getYCoordBarrel(){
+  public double getYCoordBarrel(){
     return yCoordBarrel;
   }
   
