@@ -4,7 +4,7 @@ public class Missile extends DefaultCritter{
 
 	public Missile(double xCoord, double yCoord, double xVelocity, double yVelocity, double initialAngle){
 		double radius = 0.01
-		this.initialAngle = intialAngle;
+		this.initialAngle = initialAngle;
 		super(xCoord, yCoord, xVelocity, yVelocity, radius);
 	}
 	
