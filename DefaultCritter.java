@@ -6,8 +6,12 @@ public class DefaultCritter{
 	private double yVelocity;
 	private double radius;
 	
-	public DefaultCritter(){
-		
+	public DefaultCritter(double xCoord, double yCoord, double xVelocity, double yVelocity, double radius){
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+		this.xVelocity = xVelocity;
+		this.yVelocity = yVelocity;
+		this.radius = radius;
 	}
 	
 	//setters
