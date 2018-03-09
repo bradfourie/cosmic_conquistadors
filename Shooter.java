@@ -1,67 +1,76 @@
-public class Shooter {
-  /* Variables:
-         double xCoordShooter       = x coordinate of the Shooter
-         double yCoordShooter       = y coordinate of the Shooter
-         double xVelocityShooter    = Velocity of the Shooter in the x direction
-         double yVelocityShooter    = Velocity of the Shooter in the y direction
-         double radiusShooter       = The radius of the big circle of the shooter
-         double radiusbarrel        = The radius of the small circle of the shooter
-         double angle               = The angle the shooter is facing
-         double xBarrel             = x coordinate of the Barrel
-         double ybarrel             = y coordinate of the Barrel
-         double radialVelocity                = The radial velocity of the shooter
-  */
-  //variables for the Shooter
-  private double xCoordShooter = 0, yCoordShooter = -0.9; 
-  private double xVelocityShooter = 0, yVelocityShooter = 0;
-  private double radiusShooter = 0.05;
-  private double radiusBarrel = radiusShooter/2;
-  private double angle = Math.PI/2;
-  private double xBarrel = radiusBarrel*Math.cos(angle), ybarrel = radiusBarrel*Math.sin(angle);
-  private double radialVelocity = 0;
+public class Shooter extends DefaultCritter{
   
-  // x velocity setter
-  public void setVelocity(double xv){
-    xVelocityShooter = xv;
-  }
-  //Radial velocity setter
-  public void setRadialVelocity(double rv){
-    radVelocity = rv;
+  private double xCoordBarrel;
+  private double yCoordBarrel;
+  private double radialVelocityBarrel;
+  private double radiusBarrel
+  private double angleBarrel;
+  
+
+  public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity){ 
+      double radius = 0.05; // the radius of the Shooter is by default set to 0.05
+      angleBarrel = Math.PI/2
+      radiusBarrel = radiusShooter/2;
+      xCoordBarrel = radiusBarrel*Math.cos(angle);
+      yCoordBarrel = radiusBarrel*Math.sin(angle);
+      super(xCoord, yCoord, xVelocity, yVelocity, radius); 
   }
   
-  // Angle of shooter getter
-  public double getAngle(){
-    return angle;
+  /* Setters */
+  public void setRadialVelocityBarrel(double radialVelocityBarrel){
+    this.radialVelocityBarrel = radialVelocityBarrel;
   }
-  // x coordinate getter
-  public double getX(){
-    return xCoordShooter;
+  public void setRadiusBarrel(double radiusBarrel){
+    this.radiusBarrel = radiusBarrel;
   }
-  // y coordinate getter
-  public double getY(){
-    return yCoordShooter;
+  public void setAngleBarrel(double angleBarrel){
+    this.angleBarrel = angleBarrel; 
+  }
+  public void setXCoordBarrel(double xCoordBarrel){
+    this.xCoordBarrel = xCoordBarrel;
+  }
+  public void setYCoordBarrel(){
+    this.yCoordBarrel = yCoordBarrel;
   }
   
+  /* Getters */
+  public void getRadialVelocityBarrel(){
+    return radialVelocityBarrel;
+  }
+  public void getRadiusBarrel(){
+    return radiusBarrel;
+  }
+  public void getAngleBarrel(){
+    return angleBarrel; 
+  }
+  public void getXCoordBarrel(){
+    return xCoordBarrel;
+  }
+  public void getYCoordBarrel(){
+    return yCoordBarrel;
+  }
+  
+  /* All other methods that add functionality */
   public void move(){
-    /*  set the position of the objects   */
+    /*  set the position of the shooter and draws it  */
     // if the shooter touches edge invert velocity
-    if(Math.abs(xCoordShooter + xVelocityShooter) + radiusShooter > 1.0){
+    if(Math.abs(super.xCoord + super.xVelocity) + radius > 1.0){
       xVelocityShooter = -xVelocityShooter;
     }
     // prevents shooting backwards
-    if(x == -radiusShooter && radv == Math.PI/200) radv = 0;
-    if(x == radiusShooter && radv == -Math.PI/200) radv = 0;
+    if(x == -radius && radialVelocityBarrel == Math.PI/200) radialVelocityBarrel = 0;
+    if(x == radius && radialVelocityBarrel == -Math.PI/200) radialVelocityBarrel = 0;
     //  The shooter movement
-    xCoordShooter= xCoordShooter + xVelocityShooter;
+    super.xCoord= super.xCoord + super.xVelocity;
     // The barrels rotational movement
-    angle = angle +radialVelocity;
-    x = radiusShooter*Math.cos(angle);
-    y = radiusShooter*Math.sin(angle);
+    angleBarrel = angleBarrel + radialVelocityBarrel;
+    xCoordBarrel = radiusBarrel*Math.cos(angle);
+    yCoordBarrel = radiusbarrel*Math.sin(angle);
     // Redrawing the Barrel
     StdDraw.setPenColor(StdDraw.BLUE);
-    StdDraw.filledCircle(x,y,radiusbarrel);
+    StdDraw.filledCircle(xCoordbarrel,yCoordBarrel,radiusBarrel);
     //  Redrawing the Shooter
     StdDraw.setPenColor(StdDraw.BLACK);
-    StdDraw.filledCircle(xCoordShooter, yCoordShooter, radiusShooter);
+    StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
   }
 }
