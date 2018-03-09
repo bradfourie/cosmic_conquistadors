@@ -57,11 +57,11 @@ public class Shooter {
     angle = angle +radialVelocity;
     x = radiusShooter*Math.cos(angle);
     y = radiusShooter*Math.sin(angle);
-    //  Redrawing the Shooter
-    StdDraw.setPenColor(StdDraw.BLACK);
-    StdDraw.filledCircle(xCoordShooter, yCoordShooter, radiusShooter);
     // Redrawing the Barrel
     StdDraw.setPenColor(StdDraw.BLUE);
     StdDraw.filledCircle(x,y,radiusbarrel);
+    //  Redrawing the Shooter
+    StdDraw.setPenColor(StdDraw.BLACK);
+    StdDraw.filledCircle(xCoordShooter, yCoordShooter, radiusShooter);
   }
 }
