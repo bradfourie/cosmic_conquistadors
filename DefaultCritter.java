@@ -4,12 +4,13 @@ public class DefaultCritter{
 	private double yCoord;
 	private double xVelocity;
 	private double yVelocity;
+	private double radius;
 	
 	public DefaultCritter(){
 		
 	}
 	
-	//setters for the velocity and the coordinates
+	//setters
 	public void setCoords(double xCoord, double yCoord){
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
@@ -18,12 +19,18 @@ public class DefaultCritter{
 		this.xVelocity = xVelocity;
 		this.yVelocity = yVelocity;
 	}
+	public double setRadius(double radius){
+		this.radius = radius;
+	}
 	
-	//getter for the coordinates
+	//getters
 	public double getyCoord(){
 		return yCoord;
 	}
 	public double getxCoord(){
 		return xCoord;
+	}
+	public double getRadius(){
+		return radius;
 	}
 }
