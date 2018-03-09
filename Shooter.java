@@ -58,8 +58,8 @@ public class Shooter extends DefaultCritter{
       xVelocityShooter = -xVelocityShooter;
     }
     // prevents shooting backwards
-    if(x == -radius && radialVelocityBarrel == Math.PI/200) radialVelocityBarrel = 0;
-    if(x == radius && radialVelocityBarrel == -Math.PI/200) radialVelocityBarrel = 0;
+    if(x == -radiusBarrel && radialVelocityBarrel == Math.PI/200) radialVelocityBarrel = 0;
+    if(x == radiusBarrel && radialVelocityBarrel == -Math.PI/200) radialVelocityBarrel = 0;
     //  The shooter movement
     super.xCoord= super.xCoord + super.xVelocity;
     // The barrels rotational movement
