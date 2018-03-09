@@ -5,8 +5,8 @@ public class Missile extends DefaultCritter{
 	public Missile(double intialAngle){
 		this.initialAngle = intialAngle;
 	}
-	private void bounce(){
-		
+	private void wallBounce(){
+		//inverts x velocity
 	}
 	private void move(){
 		
