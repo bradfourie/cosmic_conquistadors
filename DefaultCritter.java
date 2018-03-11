@@ -15,26 +15,31 @@ public class DefaultCritter{
 	}
 	
 	//setters
-	protected void setCoords(double xCoord, double yCoord){
+	public void setXCoord(double xCoord){
 		this.xCoord = xCoord;
+	}
+	public void setYCoord(double yCoord){
 		this.yCoord = yCoord;
 	}
-	protected void setVelocity(double xVelocity, double yVelocity){
+	public void setXVelocity(double xVelocity]){
 		this.xVelocity = xVelocity;
+	}
+	public void setYVelocity(double yVelocity){
 		this.yVelocity = yVelocity;
 	}
-	protected double setRadius(double radius){
+	//this method is reduntant
+	/*protected double setRadius(double radius){
 		this.radius = radius;
-	}
+	}*/
 	
 	//getters
-	protected double getyCoord(){
+	public double getyCoord(){
 		return yCoord;
 	}
-	protected double getxCoord(){
+	public double getxCoord(){
 		return xCoord;
 	}
-	protected double getRadius(){
+	public double getRadius(){
 		return radius;
 	}
 }
