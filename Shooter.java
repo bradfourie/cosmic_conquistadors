@@ -53,7 +53,7 @@ public class Shooter extends DefaultCritter{
     public void move(){
         /*  set the position of the shooter and draws it  */
         // if the shooter touches edge invert velocity
-        if(Math.abs(super.xCoord + super.xVelocity) + radius > 1.0)     xVelocityShooter = -xVelocityShooter;
+        if(Math.abs(super.xCoord + super.xVelocity) + radius > 1.0)     super.xVelocity = -super.xVelocity;
         // prevents shooting backwards
         if(x == -radiusBarrel && radialVelocityBarrel == Math.PI/200)   radialVelocityBarrel = 0;
         if(x == radiusBarrel && radialVelocityBarrel == -Math.PI/200)   radialVelocityBarrel = 0;
