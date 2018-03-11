@@ -10,8 +10,8 @@ public class Shooter extends DefaultCritter{
         double radius = 0.05; // the radius of the Shooter is by default set to 0.05
         angleBarrel = Math.PI/2
         radiusBarrel = radiusShooter/2;
-        xCoordBarrel = radiusBarrel*Math.cos(angle);
-        yCoordBarrel = radiusBarrel*Math.sin(angle);
+        xCoordBarrel = radiusBarrel*Math.cos(angleBarrel);
+        yCoordBarrel = radiusBarrel*Math.sin(angleBarrel);
         super(xCoord, yCoord, xVelocity, yVelocity, radius); 
     }
   
