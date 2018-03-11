@@ -13,7 +13,6 @@ public class Missile extends DefaultCritter{
 		yVelocity = Velocity*Math.sin(initialAngle);
 		xCoord = Barrel.getXCoordBarrel;
 		yCoord = Barrel.getYcoordBarrel;
-		yCoord = radius*Math.sin(initialAngle);
 		
 		this.initialAngle = initialAngle;
 		super(xCoord, yCoord, xVelocity, yVelocity, radius);
