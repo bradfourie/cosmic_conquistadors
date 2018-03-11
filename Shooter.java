@@ -3,11 +3,12 @@ public class Shooter extends DefaultCritter{
     private double xCoordBarrel;
     private double yCoordBarrel;
     private double radialVelocityBarrel;
-    private double radiusBarrel
+    private double radiusShooter;
+    private double radiusBarrel;
     private double angleBarrel; 
 
     public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity){ 
-        double radius = 0.05; // the radius of the Shooter is by default set to 0.05
+        radiusShooter = 0.05; // the radius of the Shooter is by default set to 0.05
         angleBarrel = Math.PI/2
         radiusBarrel = radiusShooter/2;
         xCoordBarrel = radiusBarrel*Math.cos(angle);
@@ -53,7 +54,7 @@ public class Shooter extends DefaultCritter{
     public void move(){
         /*  set the position of the shooter and draws it  */
         // if the shooter touches edge invert velocity
-        if(Math.abs(super.xCoord + super.xVelocity) + radius > 1.0)     xVelocityShooter = -xVelocityShooter;
+        if(Math.abs(super.xCoord + super.xVelocity) + radius > 1.0)     super.xVelocity = -super.xVelocity;
         // prevents shooting backwards
         if(x == -radiusBarrel && radialVelocityBarrel == Math.PI/200)   radialVelocityBarrel = 0;
         if(x == radiusBarrel && radialVelocityBarrel == -Math.PI/200)   radialVelocityBarrel = 0;
@@ -68,6 +69,6 @@ public class Shooter extends DefaultCritter{
         StdDraw.filledCircle(xCoordbarrel,yCoordBarrel,radiusBarrel);
         //  Redrawing the Shooter
         StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
+        StdDraw.filledCircle(super.xCoord,super.yCoord,radiusShooter);
     }
 }
