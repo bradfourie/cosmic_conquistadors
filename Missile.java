@@ -1,8 +1,8 @@
 public class Missile extends DefaultCritter{
 	
 	public Missile(Shooter shooter){
-		double velocity = 0.02;
-		double radius = 0.01;
+		double velocity = 30;
+		double radius = 10;
 		
 		//The initial x and y coordinates of the missile
 		//is the same as that of the x and y coordinates
