@@ -9,4 +9,11 @@ public class Enemy extends DefaultCritter {
 	private void onMissileCollision(){
 		
 	}
+	
+	public void move(){
+		super.xCoord = super.xCoord + super.xVelocity;
+		super.yCoord = super.yCoord + super.yVelocity;
+		StdDraw.setPenColor(StdDraw.RED);
+        	StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
+	}
 }
