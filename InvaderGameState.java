@@ -54,16 +54,30 @@ public class InvaderGameState{
 		//draws changes
 	   shooter.move();
 		
-           //loop through missilesList and update each missiles movement
-           for(int i=0; i<missilesList.size(); i++){
-		Missile currentMissile = missilesList.get(i);
-		currentMissile.move(); //TODO update missile.move()
-	   }
+
            //loop through enemiesList and update each enemies movement
            for(int i=0; i<missilesList.size(); i++){
 		Enemy currentEnemy = enemiesList.get(i);
 		currentEnemy.move(); //TODO work on the enemies!
 	   }
+		
+	   //loop through missilesList and update each missiles movement
+           for(int i=0; i<missilesList.size(); i++){
+  		Missile currentMissile = missilesList.get(i);
+    
+   		if((currentMissile.getXCoordMissile(); + 0.01 = 100) || (currentMissile.getXCoordMissile(); - 0.01 = 0)){ 
+     			//check if its on the edge of the screen
+			currentMissile.wallBounce();
+    		}
+   		if(currentMissile.getYCoordMissile() == 100 || currentMissile.amountOfBounces() >= 2){
+			// remove if its bounced more than once OR if its at the top of screen
+     			missilesList.remove(i);
+   		}else{
+   			currentMissile.move();  
+			//TODO update missile.move()
+   		}
+    	   }	
+		
 	}
 	
 }
