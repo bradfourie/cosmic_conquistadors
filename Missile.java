@@ -1,8 +1,12 @@
 public class Missile extends DefaultCritter{
 	
+	private int numBounced; //counts the number of bounces a missile has made
+	
 	public Missile(Shooter shooter){
 		double velocity = 30;
 		double radius = 10;
+		
+		this.numBounced = 0;
 		
 		//The initial x and y coordinates of the missile
 		//is the same as that of the x and y coordinates
@@ -18,9 +22,15 @@ public class Missile extends DefaultCritter{
 		super(xCoordbarrel, yCoordBarrel, xVelocityBarrel, yVelocityBarrel, radius);
 	}
 	
+	public int getNumBounced(){
+  		return hasBounced; 
+ 	}
+	
 	public void wallBounce(){
-		super.xVelocity = - super.xVelocity;
+		numBounced++;
+  		super.xVelocity = - super.xVelocity;
 	}
+	
 	public void move(){
 		super.xCoord = super.xCoord + super.xVelocity;
 		super.yCoord = super.yCoord + super.yVelocity;
