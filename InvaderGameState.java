@@ -3,6 +3,7 @@ import static java.awt.event.KeyEvent.VK_Q;
 import static java.awt.event.KeyEvent.VK_W;
 import static java.awt.event.KeyEvent.VK_X;
 import static java.awt.event.KeyEvent.VK_Z;
+import static java.awt.event.KeyEvent.VK_S;
 
 public class InvaderGameState{
 	ArrayList<Enemy> enemiesList = new ArrayList<Enemy>(0);
@@ -45,6 +46,11 @@ public class InvaderGameState{
             if( StdDraw.isKeyPressed(VK_D)){ 
 		shooter.setRadialVelocityBarrel(20);
             }
+	    // if S is pressed stop rotation
+            if( StdDraw.isKeyPressed(VK_S)){ 
+		shooter.setRadialVelocityBarrel(0);
+            }
+		
 		
 	    //Moving the shooter 
 		//this method covers
