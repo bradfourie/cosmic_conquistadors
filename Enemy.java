@@ -6,8 +6,8 @@ public class Enemy extends DefaultCritter {
 		
 	}
 	
-	private void onMissileCollision(){
-		
+	private void onMissileCollision(double missileXCoord, double missileYCoord){
+		double distance = Math.sqrt( Math.pow(missileXCoord - super.xCoord) - Math.pow(missileXCoord - super.yCoord) );
 	}
  
  	public void move(){
