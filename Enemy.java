@@ -1,8 +1,7 @@
 public class Enemy extends DefaultCritter {
 	
 	public Enemy(double xCoord, double yCoord, double xVelocity, double yVelocity){
-		double radius = 0.02;
-		super(xCoord, yCoord, xVelocity, yVelocity);
+		super(xCoord, yCoord, xVelocity, yVelocity,2); // final param radius
 		
 	}
 	
@@ -16,7 +15,7 @@ public class Enemy extends DefaultCritter {
    		if(super.xCoord == 0 || super.xCoord == 100){
      			isBounce = true;
      			super.xVelocity = 0;
-     			super.yVelocity = -0.04;
+     			super.yVelocity = -4;
    		}
   		super.xCoord = super.xCoord + super.xVelocity;
   		super.yCoord = super.yCoord + super.yVelocity;
