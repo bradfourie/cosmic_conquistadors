@@ -5,6 +5,8 @@ import static java.awt.event.KeyEvent.VK_X;
 import static java.awt.event.KeyEvent.VK_Z;
 import static java.awt.event.KeyEvent.VK_S;
 
+import java.util.ArrayList;
+
 public class InvaderGameState{
 	ArrayList<Enemy> enemiesList = new ArrayList<Enemy>(0);
 	ArrayList<Missile> missilesList = new ArrayList<Missile>(0);
