@@ -33,7 +33,7 @@ public class InvaderGameState{
             }
             //  stop movement 
             if( StdDraw.isKeyPressed(VK_X) ){
-                shooter.setXVelocity(0;
+                shooter.setXVelocity(0);
             }
             // if W is pressed create a missile 
             if( StdDraw.isKeyPressed(VK_W)){ 
