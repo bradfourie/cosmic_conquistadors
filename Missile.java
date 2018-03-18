@@ -15,7 +15,7 @@ public class Missile extends DefaultCritter{
 	}
 	
 	public int getNumBounced(){
-  		return hasBounced; 
+  		return numBounced; 
  	}
 	
 	public void wallBounce(){
