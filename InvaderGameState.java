@@ -87,5 +87,19 @@ public class InvaderGameState{
     	   }	
 		
 	}
-	
+	// Menu Loop
+	while( StdDraw.isKeyPressed(VK_Q) ){
+		StdDraw.clear();
+		StdDraw.setPenColor(StdDraw.BLACK);
+		// Drawing controls text
+		StdDraw.text(50,10,"Quit(q), Screencap (p)");
+		StdDraw.text(50,20,"Move: Left (z), Stop(x), Right(c)");
+		StdDraw.text(50,30,"Rotate: Left (a), Stop (s), Right(d)");
+		StdDraw.text(50,40,"Shoot 9w)");
+		StdDraw.text(50,60,"Press Space to Save The World");
+		//Setting Title Size
+		StdDraw.setFontSize(20);
+		//Drawing Title
+		StdDraw.text(50,75,"COSMIC CONQUISTADORS");
+	}
 }
