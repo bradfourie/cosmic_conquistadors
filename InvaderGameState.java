@@ -22,18 +22,20 @@ public class InvaderGameState{
 	//Initialise enemies!!!
 	
 	//main game loop
-	while( !StdDraw.isKeyPressed(VK_Q) ){
-		// Menu loop
-	   	while( !StdDraw.isKeyPressed(VK_space) ){
-			if(inMenu){
-				menu();
-				inMenu= true;
+	public Static void gameLoop(){
+		while( !StdDraw.isKeyPressed(VK_Q) ){
+			// Menu loop
+	   		while( !StdDraw.isKeyPressed(VK_space) ){
+				if(inMenu){
+					menu();
+					inMenu= true;
+				}
 			}
-		}
-		// Game loop
-		while( StdDraw.isKeyPressed(VK_space) ){
-			inGame();
-			inMenu= false;
+			// Game loop
+			while( StdDraw.isKeyPressed(VK_space) ){
+				inGame();
+				inMenu= false;
+			}
 		}
 		
 	}
