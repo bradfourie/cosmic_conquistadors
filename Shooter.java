@@ -3,16 +3,15 @@ public class Shooter extends DefaultCritter{
     private double xCoordBarrel;
     private double yCoordBarrel;
     private double radialVelocityBarrel;
-    private double radiusBarrel
+    private double radiusBarrel;
     private double angleBarrel; 
 
-    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity){ 
-        double radius = 0.05; // the radius of the Shooter is by default set to 0.05
-        angleBarrel = Math.PI/2
-        radiusBarrel = radiusShooter/2;
-        xCoordBarrel = radiusBarrel*Math.cos(angleBarrel);
-        yCoordBarrel = radiusBarrel*Math.sin(angleBarrel);
-        super(xCoord, yCoord, xVelocity, yVelocity, radius); 
+    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity){
+        super(xCoord, yCoord, xVelocity, yVelocity, 5); // final param radius
+        angleBarrel = Math.PI/2;
+        radiusBarrel = 5/2; //where 5 is the radius of the shooter
+        xCoordBarrel = 5*Math.cos(angleBarrel);
+        yCoordBarrel = 5*Math.sin(angleBarrel);
     }
   
     /* Setters */
@@ -55,17 +54,21 @@ public class Shooter extends DefaultCritter{
         // if the shooter touches edge invert velocity
         if(Math.abs(super.xCoord + super.xVelocity) + radius > 100.0)     super.xVelocity = -super.xVelocity;
         // prevents shooting backwards
-        if(x == -radiusBarrel && radialVelocityBarrel == Math.PI/200)   radialVelocityBarrel = 0;
-        if(x == radiusBarrel && radialVelocityBarrel == -Math.PI/200)   radialVelocityBarrel = 0;
+      if(angleBarrel <= -0.2 || angleBarrel >= (Math.PI + 0.2)){
+          radialVelocityBarrel = -radialVelocityBarrel;
+          System.out.printf("HELLO");
+        }
+        
         //  The shooter movement
         super.xCoord= super.xCoord + super.xVelocity;
         // The barrels rotational movement
         angleBarrel = angleBarrel + radialVelocityBarrel;
-        xCoordBarrel = radiusBarrel*Math.cos(angle);
-        yCoordBarrel = radiusbarrel*Math.sin(angle);
+        xCoordBarrel = 5*Math.cos(angleBarrel) + xCoord;
+        yCoordBarrel = 5*Math.sin(angleBarrel) + yCoord;
+       
         // Redrawing the Barrel
         StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.filledCircle(xCoordbarrel,yCoordBarrel,radiusBarrel);
+        StdDraw.filledCircle(xCoordBarrel,yCoordBarrel,radiusBarrel);
         //  Redrawing the Shooter
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
