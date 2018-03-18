@@ -33,10 +33,10 @@ public class DefaultCritter{
 	}*/
 	
 	//getters
-	public double getyCoord(){
+	public double getYCoord(){
 		return yCoord;
 	}
-	public double getxCoord(){
+	public double getXCoord(){
 		return xCoord;
 	}
 	public double getRadius(){
