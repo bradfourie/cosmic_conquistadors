@@ -3,13 +3,13 @@ public class Shooter extends DefaultCritter{
     private double xCoordBarrel;
     private double yCoordBarrel;
     private double radialVelocityBarrel;
-    private double radiusBarrel
+    private double radiusBarrel;
     private double angleBarrel; 
 
     public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity){
         super(xCoord, yCoord, xVelocity, yVelocity, 5); // final param radius
-        angleBarrel = Math.PI/2
-        radiusBarrel = radiusShooter/2;
+        angleBarrel = Math.PI/2;
+        radiusBarrel = 5/2; //where 5 is the radius of the shooter
         xCoordBarrel = radiusBarrel*Math.cos(angleBarrel);
         yCoordBarrel = radiusBarrel*Math.sin(angleBarrel);
     }
