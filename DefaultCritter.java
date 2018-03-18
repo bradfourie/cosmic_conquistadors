@@ -21,7 +21,7 @@ public class DefaultCritter{
 	public void setYCoord(double yCoord){
 		this.yCoord = yCoord;
 	}
-	public void setXVelocity(double xVelocity]){
+	public void setXVelocity(double xVelocity){
 		this.xVelocity = xVelocity;
 	}
 	public void setYVelocity(double yVelocity){
