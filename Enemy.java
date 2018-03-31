@@ -2,20 +2,18 @@ public class Enemy extends DefaultCritter {
   
   public Enemy(double xCoord, double yCoord, double xVelocity, double yVelocity){
     super(xCoord, yCoord, xVelocity, yVelocity,3); // final param radius
-    
   }
   
   public boolean onMissileCollision(Missile missile){
-    double rMissile = missile.getRadius();
+    double radiusMissile = missile.getRadius();
     double distance = Math.sqrt( Math.pow(missile.getXCoord() - super.xCoord, 2) + Math.pow(missile.getYCoord() - super.yCoord, 2));
-    if(distance <= (rMissile + super.radius)){
-     
+    
+    if(distance <= (radiusMissile + super.radius)){
       return true;
     }else{
-      
-      return false; 
-      
+      return false;    
     }
+    
   }
   
   public void move(){
@@ -39,5 +37,8 @@ public class Enemy extends DefaultCritter {
       StdDraw.filledCircle(super.xCoord,super.yCoord,super.radius);
     }
     
+    public void render(){
+      // add code to render here instead of in move function
+    }
   }
 }
