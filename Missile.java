@@ -1,41 +1,45 @@
 public class Missile extends DefaultCritter{
-	
-	private int numBounced; //counts the number of bounces a missile has made
-	
-	public Missile(Shooter shooter){
-		double velocity = 30;
-		double radius = 10;
-		
-		this.numBounced = 0;
-		
-		//The initial x and y coordinates of the missile
-		//is the same as that of the x and y coordinates
-		//of the shooter at the instant the missile is created
-		
-		double xCoordBarrel = shooter.getXCoordBarrel();
-		double yCoordBarrel = shooter.getYCoordBarrel();
-		double initialAngle = shooter.getAngleBarrel();
-		
-		double xVelocity = velocity * Math.cos(initialAngle);
-		double yVelocity = velocity * Math.sin(initialAngle);
-		
-		super(xCoordbarrel, yCoordBarrel, xVelocityBarrel, yVelocityBarrel, radius);
-	}
-	
-	public int getNumBounced(){
-  		return hasBounced; 
- 	}
-	
-	public void wallBounce(){
-		numBounced++;
-  		super.xVelocity = - super.xVelocity;
-	}
-	
-	public void move(){
-		super.xCoord = super.xCoord + super.xVelocity;
-		super.yCoord = super.yCoord + super.yVelocity;
-		StdDraw.setPenColor(StdDraw.YELLOW);
-        	StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
-	}
-		
+ 
+ private int numBounced; //counts the number of bounces a missile has made
+ 
+ public Missile(Shooter shooter){
+  super(shooter.getXCoordBarrel(), shooter.getYCoordBarrel(), 5 * Math.cos(shooter.getAngleBarrel()), 5 * Math.sin(shooter.getAngleBarrel()), 1);
+  this.numBounced = 0;
+  
+  //The initial x and y coordinates of the missile
+  //is the same as that of the x and y coordinates
+  //of the shooter's barrel at the instant the missile
+  //is created
+  //ill add proper comments here tomorrow
+  
+ }
+ 
+ public int getNumBounced(){
+    return numBounced; 
+  }
+ 
+ public void wallBounce(){
+  numBounced++;
+    super.xVelocity = - super.xVelocity;
+ }
+ 
+ public double getXCoord(){
+   return super.xCoord;
+ }
+ 
+ public double getYCoord(){
+   return super.yCoord;
+ }
+ 
+ public double getRadius(){
+  return super.radius; 
+ }
+ 
+ public void move(){
+  super.xCoord = super.xCoord + super.xVelocity;
+  super.yCoord = super.yCoord + super.yVelocity;
+  StdDraw.setPenColor(StdDraw.BLACK);
+         StdDraw.filledCircle(super.xCoord,super.yCoord,super.radius);
+ }
+  
 }
