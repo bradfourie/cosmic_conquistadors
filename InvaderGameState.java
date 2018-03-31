@@ -6,14 +6,17 @@ import static java.awt.event.KeyEvent.VK_Z;
 import static java.awt.event.KeyEvent.VK_S;
 import static java.awt.event.KeyEvent.VK_A;
 import static java.awt.event.KeyEvent.VK_D;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_UP;
 
 import java.util.ArrayList;
 
 public class InvaderGameState{
   
   public static void main(String args[]){
-    ArrayList<Enemy> enemiesList = new ArrayList<Enemy>(0);
-    ArrayList<Missile> missilesList = new ArrayList<Missile>(0);
+    ArrayList<Enemy> enemiesList = new ArrayList<Enemy>();
+    ArrayList<Missile> missilesList = new ArrayList<Missile>();
     Shooter shooter;
     shooter = new Shooter(0 , -80 , 0, 0);
     StdDraw.setXscale(-100, +100); //could be changed to 0 100
@@ -25,24 +28,37 @@ public class InvaderGameState{
     //Initialise enemies!!!
     
     //main game loop
+    int stepper = 0;
+    int stepLastShot = 0;
+    int starty = 96;
+    int startx = -96;
+    Enemy createEnemy;
+    for(int i = 0 ; i < 24 ; i = i + 7){
+      for(int j = 0 ; j < 60 ; j = j + 7){
+        createEnemy = new Enemy(startx + j , starty - i , 1 , 0);
+        enemiesList.add(createEnemy);
+      }
+    }
     while( !StdDraw.isKeyPressed(VK_Q) ){
+      
       /* Code for processing button presses */
       //  moving left 
-      if( StdDraw.isKeyPressed(VK_Z) ){
-        shooter.setXVelocity(-5);
+      boolean isShot = false;
+      if( StdDraw.isKeyPressed(VK_LEFT) ){
+        shooter.setXVelocity(-3);
       }
       //  moving right 
-      if( StdDraw.isKeyPressed(VK_C) ){
-        shooter.setXVelocity(5);
+      if( StdDraw.isKeyPressed(VK_RIGHT) ){
+        shooter.setXVelocity(3);
       }
       //  stop movement 
-      if( StdDraw.isKeyPressed(VK_X) ){
+      if( StdDraw.isKeyPressed(VK_UP) ){
         shooter.setXVelocity(0);
       }
       // if W is pressed create a missile 
-      if( StdDraw.isKeyPressed(VK_W)){ 
-        Missile missile = new Missile(shooter);
-        missilesList.add(missile);
+      if( StdDraw.isKeyPressed(VK_W) && (stepLastShot + 20 < stepper)){
+        stepLastShot = stepper;
+        isShot = true;
       }
       // if A is pressed rotate barrel left
       if( StdDraw.isKeyPressed(VK_A)){ 
@@ -56,6 +72,10 @@ public class InvaderGameState{
       if( StdDraw.isKeyPressed(VK_S)){ 
         shooter.setRadialVelocityBarrel(0);
       }
+      if(isShot){
+        Missile missile = new Missile(shooter);
+        missilesList.add(missile);
+      }
       
       
       //Moving the shooter 
@@ -68,16 +88,30 @@ public class InvaderGameState{
       
       
       //loop through enemiesList and update each enemies movement
-      for(int i=0; i<missilesList.size(); i++){
+      for(int i=0; i<enemiesList.size(); i++){
+        boolean isDestroy = false;
         Enemy currentEnemy = enemiesList.get(i);
-        currentEnemy.move(); //TODO work on the enemies!
+        for(int j = 0 ; j < missilesList.size() ; j ++){
+          Missile currentMissile = missilesList.get(j);
+          if(currentEnemy.onMissileCollision(currentMissile)){
+            isDestroy = true;
+          enemiesList.remove(i);
+          missilesList.remove(j);
+          break;
+        }
+        }
+        if(!isDestroy){
+          currentEnemy.move();
+        }
+        //TODO work on the enemies!
+        
       }
       
       //loop through missilesList and update each missiles movement
       for(int i=0; i<missilesList.size(); i++){
         Missile currentMissile = missilesList.get(i);
         
-        if((currentMissile.getXCoord() + 0.01 == 100) || (currentMissile.getXCoord() - 0.01 == 0)){ 
+        if(Math.abs(currentMissile.getXCoord() + 5) + 1 > 100){ 
           //check if its on the edge of the screen
           currentMissile.wallBounce();
         }
@@ -86,11 +120,14 @@ public class InvaderGameState{
           missilesList.remove(i);
         }else{
           currentMissile.move();  
-          //TODO update missile.move()
         }
       } 
+      
       StdDraw.show(30);
       StdDraw.clear();
+      stepper++;
     }
+    
+    System.exit(0);
   }
 }
