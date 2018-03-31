@@ -56,7 +56,6 @@ public class Shooter extends DefaultCritter{
         // prevents shooting backwards
       if(angleBarrel <= -0.2 || angleBarrel >= (Math.PI + 0.2)){
           radialVelocityBarrel = -radialVelocityBarrel;
-          System.out.printf("HELLO");
         }
         
         //  The shooter movement
