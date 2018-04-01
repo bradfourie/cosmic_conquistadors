@@ -72,7 +72,7 @@ public class Shooter extends DefaultCritter{
         StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.filledCircle(xCoordBarrel,yCoordBarrel,radiusBarrel);
         //  Redrawing the Shooter
-        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
     }
 }
