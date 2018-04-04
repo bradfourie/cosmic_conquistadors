@@ -37,7 +37,7 @@ public class Missile extends DefaultCritter{
     }
 
     public void render(){
-        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.filledCircle(super.xCoord,super.yCoord,super.radius);
     }
 
