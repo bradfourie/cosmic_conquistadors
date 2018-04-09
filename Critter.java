@@ -1,3 +1,4 @@
-public class Critter{
-	
+package com.company;
+
+public class Critter {
 }

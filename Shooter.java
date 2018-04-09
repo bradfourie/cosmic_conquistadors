@@ -1,3 +1,6 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
 public class Shooter extends DefaultCritter{
 
     private double xCoordBarrel;
@@ -52,9 +55,9 @@ public class Shooter extends DefaultCritter{
     public void move(){
         /*  set the position of the shooter and draws it  */
         // if the shooter touches edge invert velocity
-        if(wallBounce(super.xCoord + super.xVelocity, super.radius))       super.xVelocity = -super.xVelocity;
+        if(Math.abs(super.xCoord + super.xVelocity) + super.radius > 100.0)       super.xVelocity = -super.xVelocity;
         // prevents shooting backwards
-        if(horizontal(angleBarrel))           radialVelocityBarrel = -radialVelocityBarrel;
+        if(angleBarrel <= -0.2 || angleBarrel >= (Math.PI + 0.2))           radialVelocityBarrel = -radialVelocityBarrel;
 
         //  The shooter movement
         super.xCoord= super.xCoord + super.xVelocity;
@@ -74,17 +77,5 @@ public class Shooter extends DefaultCritter{
         //  Redrawing the Shooter
         StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
-    }
-    // Checking if shooter is touching the wall
-    private boolean wallBounce(double cv, double r){
-        boolean out = false;
-        if(Math.abs(cv) + r > 100.0) out  true;
-        return out;
-    }
-    // Checking if horizontal
-    private boolean horizontal(double angle){
-        boolean out = false;
-        if(angle <= -0.2 || angle >= (Math.PI + 0.2)) out = true;
-        return out;
     }
 }
