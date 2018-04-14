@@ -1,11 +1,8 @@
-package com.company;
-
-import edu.princeton.cs.introcs.StdDraw;
-
 public class EnemyMissile extends Missile {
 
     public EnemyMissile(Enemy enemy){
         super(enemy.getXCoord(), enemy.getYCoord(), 0, -15, 3);
+        super.yVelocity = -15;
     }
 
     public boolean isShooterCollision(Shooter shooter){
@@ -19,6 +16,7 @@ public class EnemyMissile extends Missile {
             return false;
         }
     }
+    
 
     public void render(){
         StdDraw.setPenColor(StdDraw.PINK);
