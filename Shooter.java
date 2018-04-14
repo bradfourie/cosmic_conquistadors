@@ -1,37 +1,29 @@
 package com.company;
 
 import edu.princeton.cs.introcs.StdDraw;
+
 public class Shooter extends DefaultCritter{
 
+    private double INITIAL_ANGLE_BARREL = Math.PI/2.0;
     private double xCoordBarrel;
     private double yCoordBarrel;
     private double radialVelocityBarrel;
     private double radiusBarrel;
     private double angleBarrel;
+    private int lives;
 
-    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity){
-        super(xCoord, yCoord, xVelocity, yVelocity, 5);
+    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity, int lives){
+        super(xCoord, yCoord, xVelocity, yVelocity, 10);
         angleBarrel = Math.PI/2;
-        radiusBarrel = super.radius/2;
-        xCoordBarrel = super.radius*Math.cos(angleBarrel);
-        yCoordBarrel = super.radius*Math.sin(angleBarrel);
+        radiusBarrel = super.radius/2.0;
+        xCoordBarrel = super.radius*Math.cos(radiusBarrel);
+        yCoordBarrel = super.radius*Math.sin(radiusBarrel);
+        this.lives = lives;
     }
 
     /* Setters */
     public void setRadialVelocityBarrel(double radialVelocityBarrel){
         this.radialVelocityBarrel = radialVelocityBarrel;
-    }
-    public void setRadiusBarrel(double radiusBarrel){
-        this.radiusBarrel = radiusBarrel;
-    }
-    public void setAngleBarrel(double angleBarrel){
-        this.angleBarrel = angleBarrel;
-    }
-    public void setXCoordBarrel(double xCoordBarrel){
-        this.xCoordBarrel = xCoordBarrel;
-    }
-    public void setYCoordBarrel(){
-        this.yCoordBarrel = yCoordBarrel;
     }
 
     /* Getters */
@@ -50,12 +42,19 @@ public class Shooter extends DefaultCritter{
     public double getYCoordBarrel(){
         return yCoordBarrel;
     }
+    public int getLives(){
+        return lives;
+    }
+
+    public void removeLife(){
+        lives--;
+    }
 
     /* All other methods that add functionality */
     public void move(){
         /*  set the position of the shooter and draws it  */
         // if the shooter touches edge invert velocity
-        if(Math.abs(super.xCoord + super.xVelocity) + super.radius > 100.0)       super.xVelocity = -super.xVelocity;
+        if(Math.abs(super.xCoord + super.xVelocity) + super.radius > 640)       super.xVelocity = -super.xVelocity;
         // prevents shooting backwards
         if(angleBarrel <= -0.2 || angleBarrel >= (Math.PI + 0.2))           radialVelocityBarrel = -radialVelocityBarrel;
 
@@ -71,11 +70,26 @@ public class Shooter extends DefaultCritter{
 
     public void render()
     {
+        if(getLives() == 3){
+            StdDraw.setPenColor(StdDraw.BLUE);
+        }
+        if(getLives() == 2){
+            StdDraw.setPenColor(StdDraw.ORANGE);
+        }
+        if(getLives() == 1){
+            StdDraw.setPenColor(StdDraw.YELLOW);
+        }
         // Redrawing the Barrel
-        StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.filledCircle(xCoordBarrel,yCoordBarrel,radiusBarrel);
         //  Redrawing the Shooter
-        StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
+    }
+
+    public void resetState(int startXCoord, int startYCoord) {
+        xCoord = startXCoord;
+        yCoord = startYCoord;
+        radialVelocityBarrel = 0;
+        xCoordBarrel = super.radius*Math.cos(INITIAL_ANGLE_BARREL);
+        yCoordBarrel = super.radius*Math.sin(INITIAL_ANGLE_BARREL);
     }
 }

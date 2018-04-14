@@ -8,24 +8,25 @@ public class Missile extends DefaultCritter{
     public Missile(Shooter shooter){
         //here the magical constant 5 is the magnitude of the velocity
         //and the magical constant 1 is the radius of the missile
-        super(shooter.getXCoordBarrel(), shooter.getYCoordBarrel(), 5 * Math.cos(shooter.getAngleBarrel()), 5 * Math.sin(shooter.getAngleBarrel()), 1);
+        super(shooter.getXCoordBarrel(), shooter.getYCoordBarrel(), 15 * Math.cos(shooter.getAngleBarrel()), 15 * Math.sin(shooter.getAngleBarrel()), 3);
         this.numBounced = 0;
         this.enemyMissile = false;
     }
 
     public Missile(Enemy enemy){
         //here the magical constant 5 is the magnitude of the velocity
-        //and the magical constant 1 is the radius of the missile
-        super(enemy.getXCoord(), enemy.getYCoord(), 0, -5, 1);
+        //and the magical constant 1.5 is the radius of the missile
+        super(enemy.getXCoord(), enemy.getYCoord(), 0, -15, 3);
         this.numBounced = 0;
         this.enemyMissile = true;
     }
 
     public boolean isShooterCollision(Shooter shooter){
         double radiusShooter = shooter.getRadius();
-        double distance = Math.sqrt( Math.pow(shooter.getXCoord() - super.xCoord, 2) + Math.pow(shooter.getYCoord() - super.yCoord, 2));
+        double distanceToShooter = Math.sqrt( Math.pow(shooter.getXCoord() - super.xCoord, 2) + Math.pow(shooter.getYCoord() - super.yCoord, 2));
+        double distanceToBarrel = Math.sqrt( Math.pow(shooter.getXCoordBarrel() - super.xCoord, 2) + Math.pow(shooter.getYCoordBarrel() - super.yCoord, 2));
 
-        if(distance <= (radiusShooter + super.radius)){
+        if( (distanceToShooter <= (radiusShooter + super.radius))  ||  (distanceToBarrel <= (radiusShooter + super.radius))){
             return true;
         }else{
             return false;
@@ -65,8 +66,19 @@ public class Missile extends DefaultCritter{
     }
 
     public void render(){
-        StdDraw.setPenColor(StdDraw.YELLOW);
+        if(enemyMissile) {
+            StdDraw.setPenColor(StdDraw.PINK);
+        }else{
+            StdDraw.setPenColor(StdDraw.BLUE);
+        }
         StdDraw.filledCircle(super.xCoord,super.yCoord,super.radius);
     }
+
+    /*public class EnemyMissile extends Missile{
+
+        public EnemyMissile(Enemy enemy) {
+            super(enemy);
+        }
+    }*/
 
 }
