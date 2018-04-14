@@ -1,7 +1,3 @@
-package com.company;
-
-import edu.princeton.cs.introcs.StdDraw;
-
 import java.util.ArrayList;
 
 import static java.awt.event.KeyEvent.VK_Q;

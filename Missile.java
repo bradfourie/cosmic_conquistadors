@@ -1,8 +1,6 @@
-package com.company;
-
-import edu.princeton.cs.introcs.StdDraw;
 public class Missile extends DefaultCritter{
     private int numBounced; //counts the number of bounces a missile has made
+    protected double angle; //the angle that determines the direction the bullet is facing
 
     public Missile(double xCoord, double yCoord, double xVelocity, double yVelocity, double radius){
         //here the magical constant 5 is the magnitude of the velocity
@@ -18,6 +16,7 @@ public class Missile extends DefaultCritter{
     public void wallBounce(){
         numBounced++;
         super.xVelocity = - super.xVelocity;
+        angle=-angle;
     }
 
     public double getXCoord(){

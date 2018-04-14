@@ -1,7 +1,3 @@
-package com.company;
-
-import edu.princeton.cs.introcs.StdDraw;
-
 public class StarBackground {
 
     /* ADD YOUR CODE HERE */

@@ -1,7 +1,3 @@
-package com.company;
-
-import edu.princeton.cs.introcs.StdDraw;
-
 public class PlasmaMissile extends Missile{
 
     public PlasmaMissile(Shooter shooter){

@@ -1,4 +1,3 @@
-package com.company;
 public class DefaultCritter{
 
     protected double xCoord;

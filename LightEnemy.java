@@ -1,7 +1,3 @@
-package com.company;
-
-import edu.princeton.cs.introcs.StdDraw;
-
 public class LightEnemy extends Enemy {
     public LightEnemy(double xCoord, double yCoord, double xVelocity, double yVelocity){
         super(xCoord, yCoord, xVelocity, yVelocity,10 , 2);
@@ -9,12 +5,12 @@ public class LightEnemy extends Enemy {
 
     public void render(){
         if(getLives() == 2){
-            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.picture(super.xCoord,super.yCoord,"EnemyRed.png",super.radius*2,super.radius*2);
         }
         if(getLives() == 1){
-            StdDraw.setPenColor(StdDraw.WHITE);
+            StdDraw.picture(super.xCoord,super.yCoord,"EnemyYellow.png",super.radius*2,super.radius*2);
         }
-        StdDraw.filledCircle(super.xCoord,super.yCoord,super.radius);
+        
     }
 
 }

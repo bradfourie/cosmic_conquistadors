@@ -1,6 +1,3 @@
-package com.company;
-
-import edu.princeton.cs.introcs.StdDraw;
 public class Enemy extends DefaultCritter {
     private int lives;
     private int shootProbability;

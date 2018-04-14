@@ -459,10 +459,10 @@ public class InvaderGameState{
       isShot1 = true;
     }
     if (StdDraw.isKeyPressed(VK_A)) {
-      mainShooter.setRadialVelocityBarrel(0.1);
+      mainShooter.setRadialVelocityBarrel(3);
     }
     if (StdDraw.isKeyPressed(VK_D)) {
-      mainShooter.setRadialVelocityBarrel(-0.1);
+      mainShooter.setRadialVelocityBarrel(-3);
     }
     if (StdDraw.isKeyPressed(VK_S)) {
       mainShooter.setRadialVelocityBarrel(0);

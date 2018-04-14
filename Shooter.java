@@ -1,7 +1,3 @@
-package com.company;
-
-import edu.princeton.cs.introcs.StdDraw;
-
 public class Shooter extends DefaultCritter{
 
     private double INITIAL_ANGLE_BARREL = Math.PI/2.0;
@@ -14,7 +10,7 @@ public class Shooter extends DefaultCritter{
 
     public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity, int lives){
         super(xCoord, yCoord, xVelocity, yVelocity, 10);
-        angleBarrel = Math.PI/2;
+        angleBarrel = 0;
         radiusBarrel = super.radius/2.0;
         xCoordBarrel = super.radius*Math.cos(radiusBarrel);
         yCoordBarrel = super.radius*Math.sin(radiusBarrel);
@@ -56,14 +52,14 @@ public class Shooter extends DefaultCritter{
         // if the shooter touches edge invert velocity
         if(Math.abs(super.xCoord + super.xVelocity) + super.radius > 640)       super.xVelocity = -super.xVelocity;
         // prevents shooting backwards
-        if(angleBarrel <= -0.2 || angleBarrel >= (Math.PI + 0.2))           radialVelocityBarrel = -radialVelocityBarrel;
+        if(angleBarrel <= -90 || angleBarrel >= 90)           radialVelocityBarrel = -radialVelocityBarrel;
 
         //  The shooter movement
         super.xCoord= super.xCoord + super.xVelocity;
         // The barrels rotational movement
         angleBarrel = angleBarrel + radialVelocityBarrel;
-        xCoordBarrel = super.radius*Math.cos(angleBarrel) + xCoord;
-        yCoordBarrel = super.radius*Math.sin(angleBarrel) + yCoord;
+        xCoordBarrel = super.radius*Math.cos(angleBarrel*Math.PI/180+90) + xCoord;
+        yCoordBarrel = super.radius*Math.sin(angleBarrel*Math.PI/180+90) + yCoord;
 
         render();
     }
@@ -80,9 +76,9 @@ public class Shooter extends DefaultCritter{
             StdDraw.setPenColor(StdDraw.YELLOW);
         }
         // Redrawing the Barrel
-        StdDraw.filledCircle(xCoordBarrel,yCoordBarrel,radiusBarrel);
+        //StdDraw.filledCircle(xCoordBarrel,yCoordBarrel,radiusBarrel);
         //  Redrawing the Shooter
-        StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
+        StdDraw.picture(super.xCoord,super.yCoord,"PlayerBlue.png",radius*5,radius*5,angleBarrel);
     }
 
     public void resetState(int startXCoord, int startYCoord) {
