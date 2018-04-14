@@ -1,10 +1,13 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
 public class Missile extends DefaultCritter{
     private int numBounced; //counts the number of bounces a missile has made
 
-    public Missile(Shooter shooter){
+    public Missile(double xCoord, double yCoord, double xVelocity, double yVelocity, double radius){
         //here the magical constant 5 is the magnitude of the velocity
-        //and the magical constant 1 is the radius of the missile
-        super(shooter.getXCoordBarrel(), shooter.getYCoordBarrel(), 5 * Math.cos(shooter.getAngleBarrel()), 5 * Math.sin(shooter.getAngleBarrel()), 1);
+        //and the magical constant 1.5 is the radius of the missile
+        super(xCoord, yCoord, xVelocity, xVelocity, radius);
         this.numBounced = 0;
     }
 
@@ -29,17 +32,10 @@ public class Missile extends DefaultCritter{
         return super.radius;
     }
 
+
     public void move(){
         super.xCoord = super.xCoord + super.xVelocity;
         super.yCoord = super.yCoord + super.yVelocity;
-
-        render();
-    }
-
-    public void render(){
-        StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.filledCircle(super.xCoord,super.yCoord,super.radius);
     }
 
 }
-
