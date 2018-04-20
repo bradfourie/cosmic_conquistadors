@@ -7,6 +7,7 @@ public class Shooter extends DefaultCritter{
     private double radiusBarrel;
     private double angleBarrel;
     private int lives;
+    private int powerUp;
 
     public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity, int lives){
         super(xCoord, yCoord, xVelocity, yVelocity, 10);
@@ -20,6 +21,9 @@ public class Shooter extends DefaultCritter{
     /* Setters */
     public void setRadialVelocityBarrel(double radialVelocityBarrel){
         this.radialVelocityBarrel = radialVelocityBarrel;
+    }
+    public void setPowerUp(int power){
+      powerUp = power;
     }
 
     /* Getters */
@@ -42,6 +46,21 @@ public class Shooter extends DefaultCritter{
         return lives;
     }
 
+    public double getPower(){
+    return powerUp;  
+    }
+    
+    public double getXCoord(){
+     return super.xCoord; 
+    }
+    
+    public double getYCoord(){
+      return super.yCoord;
+    }
+    
+    public double getRadius(){
+     return super.radius; 
+    }
     public void removeLife(){
         lives--;
     }
@@ -60,10 +79,9 @@ public class Shooter extends DefaultCritter{
         angleBarrel = angleBarrel + radialVelocityBarrel;
         xCoordBarrel = super.radius*Math.cos(angleBarrel*Math.PI/180+90) + xCoord;
         yCoordBarrel = super.radius*Math.sin(angleBarrel*Math.PI/180+90) + yCoord;
-
         render();
     }
-
+   
     public void render()
     {
         if(getLives() == 3){

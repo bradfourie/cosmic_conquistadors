@@ -19,7 +19,7 @@ public class EnemyMissile extends Missile {
     
 
     public void render(){
-        StdDraw.setPenColor(StdDraw.PINK);
+        StdDraw.setPenColor(StdDraw.RED);
         StdDraw.filledCircle(super.xCoord,super.yCoord,super.radius);
     }
 }

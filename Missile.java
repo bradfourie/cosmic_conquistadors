@@ -33,8 +33,14 @@ public class Missile extends DefaultCritter{
 
 
     public void move(){
+      StdDraw.setPenColor(StdDraw.YELLOW);
         super.xCoord = super.xCoord + super.xVelocity;
         super.yCoord = super.yCoord + super.yVelocity;
+        StdDraw.filledCircle(super.xCoord, super.yCoord , radius);
     }
+    
+   /* public void render(){
+        StdDraw.picture(super.xCoord,super.yCoord,"BulletYellow.png",super.radius*5,super.radius*2,angle);
+    }*/
 
 }

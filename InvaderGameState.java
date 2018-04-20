@@ -11,16 +11,18 @@ public class InvaderGameState{
   private final int START_Y_COORD_ENEMY = 300;
   private final int START_X_COORD_ENEMY = -600;
   
-  private int gameLoopCounter, score, round, coolDown1, coolDown2, shootProbability;
+  private int gameLoopCounter, score, round, coolDown1, coolDown2, shootProbability, powerUpStep;
   private double enemyXVelocity;
   private boolean gameOver, win, isShot1, isShot2, twoPlayer;
   
   private Shooter mainShooter, additionalShooter;
   private StarBackground star;
+  private PowerUp powerUp;
   
   private ArrayList<Enemy> enemiesList;
   private ArrayList<Missile> missilesList;
   private ArrayList<StarBackground> starsList = new ArrayList<StarBackground>();
+  private ArrayList<PowerUp> powersList = new ArrayList<PowerUp>();
   
   
   public void gameLoop(){
@@ -31,13 +33,15 @@ public class InvaderGameState{
         twoPlayer = true;
       }
       
-       
-       
+      
+      
       
       isShot1 = false;
       mainShooterKeyPresses();
       mainShooter.move();
-      
+      if(powerUpStep + 40 < gameLoopCounter){
+        mainShooter.setPowerUp(0);
+      }
       if(twoPlayer){
         isShot2 = false;
         additionalShooterKeyPresses();
@@ -47,7 +51,7 @@ public class InvaderGameState{
       updateEnemyMovement();
       updateMissileMovement();
       updateBackground();
-      
+      updatePowerUpMovement();
       checkWin();
       checkGameOver();
       
@@ -61,6 +65,7 @@ public class InvaderGameState{
   }
   
   public void initializeStartRound() {
+    powerUpStep = 0;
     gameLoopCounter = 0;
     coolDown1 = 0;
     coolDown2 = 0;
@@ -80,14 +85,14 @@ public class InvaderGameState{
     missilesList.clear();
     
     mainShooter = new Shooter(START_X_COORD_SHOOTER, START_Y_COORD_SHOOTER, 0, 0, 3);
-    
+    mainShooter.setPowerUp(0);
     initializeEnemies();
   }
   
   public void initializeNextRound(){
     gameLoopCounter = 0;
     round++;
-    
+    powerUpStep = 0;
     win = false;
     
     mainShooter.resetState(20, START_Y_COORD_SHOOTER);
@@ -103,7 +108,7 @@ public class InvaderGameState{
     
     enemiesList.clear();
     missilesList.clear();
-    
+    mainShooter.setPowerUp(0);
     initializeEnemies();
   }
   
@@ -201,52 +206,52 @@ public class InvaderGameState{
         }
       }
       if(enemiesList.size() > i){
-      if(enemiesList.get(i) instanceof LightEnemy){
-        LightEnemy lightEnemy = (LightEnemy) enemiesList.get(i);
-        lightEnemyMovement(lightEnemy, isDestroy, isEdge);
+        if(enemiesList.get(i) instanceof LightEnemy){
+          LightEnemy lightEnemy = (LightEnemy) enemiesList.get(i);
+          lightEnemyMovement(lightEnemy, isDestroy, isEdge);
+        }
+        if(enemiesList.get(i) instanceof HeavyEnemy){
+          HeavyEnemy heavyEnemy = (HeavyEnemy) enemiesList.get(i);
+          heavyEnemyMovement(heavyEnemy, isDestroy, isEdge);
+        }
+        if(enemiesList.get(i) instanceof BossEnemy){
+          BossEnemy bossEnemy = (BossEnemy) enemiesList.get(i);
+          bossEnemyMovement(bossEnemy, isDestroy, isEdge);
+        }
+        
       }
-      if(enemiesList.get(i) instanceof HeavyEnemy){
-        HeavyEnemy heavyEnemy = (HeavyEnemy) enemiesList.get(i);
-        heavyEnemyMovement(heavyEnemy, isDestroy, isEdge);
-      }
-      if(enemiesList.get(i) instanceof BossEnemy){
-        BossEnemy bossEnemy = (BossEnemy) enemiesList.get(i);
-        bossEnemyMovement(bossEnemy, isDestroy, isEdge);
-      }
-      
-    }
     }
   }
   public void lightEnemyMovement(LightEnemy lightEnemy, boolean isDestroy, boolean isEdge){
-   
-      if(isEdge){
-        lightEnemy.moveY();
-        lightEnemy.render();
-      }else{
-        lightEnemy.moveX();
-        lightEnemy.render();
-      }
-      
-      if(lightEnemy.isShoot()){
-        EnemyMissile missile = new EnemyMissile(lightEnemy);
-        missilesList.add(missile);
-      }
+    
+    if(isEdge){
+      lightEnemy.moveY();
+      lightEnemy.render();
+    }else{
+      lightEnemy.moveX();
+      lightEnemy.render();
+    }
+    
+    if(lightEnemy.isShoot()){
+      EnemyMissile missile = new EnemyMissile(lightEnemy);
+      missilesList.add(missile);
+    }
     
   }
   public void heavyEnemyMovement(HeavyEnemy heavyEnemy, boolean isDestroy, boolean isEdge){
     
-      if(isEdge){
-        heavyEnemy.moveY();
-        heavyEnemy.render();
-      }else{
-        heavyEnemy.moveX();
-        heavyEnemy.render();
-      }
-      
-      if(heavyEnemy.isShoot()){
-        EnemyMissile missile = new EnemyMissile(heavyEnemy);
-        missilesList.add(missile);
-      }
+    if(isEdge){
+      heavyEnemy.moveY();
+      heavyEnemy.render();
+    }else{
+      heavyEnemy.moveX();
+      heavyEnemy.render();
+    }
+    
+    if(heavyEnemy.isShoot()){
+      EnemyMissile missile = new EnemyMissile(heavyEnemy);
+      missilesList.add(missile);
+    }
     
   }
   public void bossEnemyMovement(BossEnemy bossEnemy, boolean isDestroy, boolean isEdge){
@@ -269,36 +274,35 @@ public class InvaderGameState{
   public void updateMissileMovement(){
     //loop through missilesList and update each missiles movement
     boolean removed;
-  System.out.println(missilesList.size());
     for (int i = 0; i < missilesList.size(); i++) {
       if(missilesList.size() > i){
-      if(missilesList.get(i) instanceof EnemyMissile && missilesList.size() > 0) {
-        EnemyMissile enemyMissile = (EnemyMissile) missilesList.get(i);
-        enemyMissileMovement(enemyMissile, i);
-        
-      }
-      }
-      if(missilesList.size() > i){
-      if (missilesList.get(i) instanceof NormalMissile && missilesList.size() > 0) {
-        NormalMissile normalMissile = (NormalMissile) missilesList.get(i);
-        normalMissileMovement(normalMissile, i);
-        
-      }
+        if(missilesList.get(i) instanceof EnemyMissile && missilesList.size() > 0) {
+          EnemyMissile enemyMissile = (EnemyMissile) missilesList.get(i);
+          enemyMissileMovement(enemyMissile, i);
+          
+        }
       }
       if(missilesList.size() > i){
-      if (missilesList.get(i) instanceof PlasmaMissile) {
-        PlasmaMissile plasmaMissile = (PlasmaMissile) missilesList.get(i);
-        plasmaMissileMovement(plasmaMissile, i);
-        
+        if (missilesList.get(i) instanceof NormalMissile && missilesList.size() > 0) {
+          NormalMissile normalMissile = (NormalMissile) missilesList.get(i);
+          normalMissileMovement(normalMissile, i);
+          
+        }
       }
-      }
+      if(missilesList.size() > i){
+        if (missilesList.get(i) instanceof PlasmaMissile) {
+          PlasmaMissile plasmaMissile = (PlasmaMissile) missilesList.get(i);
+          plasmaMissileMovement(plasmaMissile, i);
+          
+        }
       }
     }
-    
+  }
+  
   
   
   public void enemyMissileMovement(EnemyMissile enemyMissile, int position){
-   
+    
     if (Math.abs(enemyMissile.getXCoord() + enemyMissile.getRadius()) + enemyMissile.getRadius() > 640) {
       enemyMissile.wallBounce();
     }
@@ -314,7 +318,7 @@ public class InvaderGameState{
     
   }
   public void normalMissileMovement(NormalMissile normalMissile, int position){
-   
+    
     if (Math.abs(normalMissile.getXCoord() + normalMissile.getRadius()) + normalMissile.getRadius() > 640) {
       normalMissile.wallBounce();
     }
@@ -333,13 +337,10 @@ public class InvaderGameState{
     if (Math.abs(plasmaMissile.getXCoord() + plasmaMissile.getRadius()) + plasmaMissile.getRadius() > 640) {
       plasmaMissile.wallBounce();
     }
-    if (plasmaMissile.getYCoord() >= 360 || plasmaMissile.getNumBounced() >= 2) {
-      // remove if its bounced more than once OR if its at the top of the screen
-      
+    if(plasmaMissile.plasmaMissilesList.size() == 0){
       missilesList.remove(position);
-    }  else {
-      plasmaMissile.move();
-      plasmaMissile.render();
+    }else{
+      plasmaMissile.move(); 
     }
     
   }
@@ -362,6 +363,35 @@ public class InvaderGameState{
         starsList.remove(i);
       } else {
         currentStar.move();
+      }
+    }
+  }
+  
+  public void updatePowerUpMovement(){
+    int x = (int)(Math.random() *15000);
+    double length = 5;
+    double sign = Math.random();
+    if(sign > 0.5){
+      x = -x;
+    }
+    powerUp = new PowerUp(x , 360, length);
+    if(x >= -640 && x <= 640 && Math.random() < 0.5){
+      powersList.add(powerUp);
+    }
+    
+    for(int i = 0 ; i < powersList.size() ; i ++){
+      PowerUp currentPowerUp = powersList.get(i);
+      double dis = Math.sqrt(Math.pow(currentPowerUp.getXCoord() - mainShooter.getXCoord(), 2) + Math.pow(currentPowerUp.getYCoord() - mainShooter.getYCoord(), 2));
+      if ((dis <= (currentPowerUp.getRadius() + mainShooter.getRadius()))){
+        mainShooter.setPowerUp(currentPowerUp.getPower());
+        powersList.remove(i);
+        powerUpStep = gameLoopCounter;
+      } else if(currentPowerUp.getYCoord() < -360) {
+        powersList.remove(i);
+      }else if(dis <= (currentPowerUp.getRadius() + mainShooter.getRadius())){
+        powersList.remove(i);
+      }else{
+        currentPowerUp.move();
       }
     }
   }
@@ -454,9 +484,16 @@ public class InvaderGameState{
     if (StdDraw.isKeyPressed(VK_X)) {
       mainShooter.setXVelocity(0);
     }
-    if (StdDraw.isKeyPressed(VK_W) && (coolDown1 + 20 < gameLoopCounter)) {
-      coolDown1 = gameLoopCounter;
-      isShot1 = true;
+    if(mainShooter.getPower() == 0 || mainShooter.getPower() == 2){
+      if (StdDraw.isKeyPressed(VK_W) && (coolDown1 + 20 < gameLoopCounter)) {
+        coolDown1 = gameLoopCounter;
+        isShot1 = true;
+      }
+    }else{
+      if (StdDraw.isKeyPressed(VK_W)) {
+        
+        isShot1 = true;
+      }
     }
     if (StdDraw.isKeyPressed(VK_A)) {
       mainShooter.setRadialVelocityBarrel(3);
@@ -473,9 +510,19 @@ public class InvaderGameState{
     if (StdDraw.isKeyPressed(VK_P)) {
       //StdDraw.save();
     }
-    if (isShot1) {
+    if (isShot1 && mainShooter.getPower() != 2) {
       NormalMissile normalMissile = new NormalMissile(mainShooter);
       missilesList.add(normalMissile);
+    }else if(isShot1 && mainShooter.getPower() == 2){
+      NormalMissile normalMissile = new NormalMissile(mainShooter);
+      normalMissile.moveAngle(10);
+      missilesList.add(normalMissile);
+      NormalMissile normalMissile1 = new NormalMissile(mainShooter);
+      normalMissile1.moveAngle(-10);
+      missilesList.add(normalMissile1);
+      NormalMissile normalMissile2 = new NormalMissile(mainShooter);
+      missilesList.add(normalMissile2);
+      
     }
   }
   
