@@ -1,43 +1,28 @@
+
 public class Shooter extends DefaultCritter{
 
     private double xCoordBarrel;
     private double yCoordBarrel;
     private double radialVelocityBarrel;
-    private double radiusBarrel;
     private double angleBarrel;
+    private int lives;
+    private int powerUp;
 
-    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity){
-        super(xCoord, yCoord, xVelocity, yVelocity, 5);
-        angleBarrel = Math.PI/2;
-        radiusBarrel = super.radius/2;
-        xCoordBarrel = super.radius*Math.cos(angleBarrel);
-        yCoordBarrel = super.radius*Math.sin(angleBarrel);
+    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity, int lives){
+        super(xCoord, yCoord, xVelocity, yVelocity, 10);
+        angleBarrel = 90;
+        xCoordBarrel = super.xCoord;
+        yCoordBarrel = super.getRadius() + super.yCoord;
+        this.lives = lives;
     }
 
     /* Setters */
-    public void setRadialVelocityBarrel(double radialVelocityBarrel){
-        this.radialVelocityBarrel = radialVelocityBarrel;
-    }
-    public void setRadiusBarrel(double radiusBarrel){
-        this.radiusBarrel = radiusBarrel;
-    }
-    public void setAngleBarrel(double angleBarrel){
-        this.angleBarrel = angleBarrel;
-    }
-    public void setXCoordBarrel(double xCoordBarrel){
-        this.xCoordBarrel = xCoordBarrel;
-    }
-    public void setYCoordBarrel(){
-        this.yCoordBarrel = yCoordBarrel;
+    public void setRadialVelocityBarrel(double radialVelocityBarrel){ this.radialVelocityBarrel = radialVelocityBarrel; }
+    public void setPowerUp(int power){
+      powerUp = power;
     }
 
     /* Getters */
-    public double getRadialVelocityBarrel(){
-        return radialVelocityBarrel;
-    }
-    public double getRadiusBarrel(){
-        return radiusBarrel;
-    }
     public double getAngleBarrel(){
         return angleBarrel;
     }
@@ -48,43 +33,47 @@ public class Shooter extends DefaultCritter{
         return yCoordBarrel;
     }
 
-    /* All other methods that add functionality */
+    public int getLives(){
+        return lives;
+    }
+    public double getPower(){
+    return powerUp;  
+    }
+    public void removeLife(){
+        lives--;
+    }
+
     public void move(){
         /*  set the position of the shooter and draws it  */
         // if the shooter touches edge invert velocity
-        if(wallBounce(super.xCoord + super.xVelocity, super.radius))       super.xVelocity = -super.xVelocity;
+        if(Math.abs(super.xCoord + super.xVelocity) + super.radius > 640){
+            super.xVelocity = -super.xVelocity;
+        }
         // prevents shooting backwards
-        if(horizontal(angleBarrel))           radialVelocityBarrel = -radialVelocityBarrel;
+        if(angleBarrel >= 180 || angleBarrel <= 0) {
+            radialVelocityBarrel = -radialVelocityBarrel;
+        }
 
         //  The shooter movement
         super.xCoord= super.xCoord + super.xVelocity;
         // The barrels rotational movement
         angleBarrel = angleBarrel + radialVelocityBarrel;
-        xCoordBarrel = super.radius*Math.cos(angleBarrel) + xCoord;
-        yCoordBarrel = super.radius*Math.sin(angleBarrel) + yCoord;
-
+        xCoordBarrel =  xCoord + super.radius * Math.cos(angleBarrel*Math.PI/180);
+        yCoordBarrel = yCoord + super.radius *Math.sin(angleBarrel*Math.PI/180);
         render();
     }
-
+   
     public void render()
     {
-        // Redrawing the Barrel
-        StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.filledCircle(xCoordBarrel,yCoordBarrel,radiusBarrel);
-        //  Redrawing the Shooter
-        StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.filledCircle(super.xCoord,super.yCoord,radius);
+        double scaledAngleBarrel = angleBarrel - 90;
+        StdDraw.picture(super.xCoord,super.yCoord,"PlayerBlue.png",super.radius*5,super.radius*5, scaledAngleBarrel);
     }
-    // Checking if shooter is touching the wall
-    private boolean wallBounce(double cv, double r){
-        boolean out = false;
-        if(Math.abs(cv) + r > 100.0) out  true;
-        return out;
-    }
-    // Checking if horizontal
-    private boolean horizontal(double angle){
-        boolean out = false;
-        if(angle <= -0.2 || angle >= (Math.PI + 0.2)) out = true;
-        return out;
+
+    public void resetState(int startXCoord, int startYCoord) {
+        xCoord = startXCoord;
+        yCoord = startYCoord;
+        radialVelocityBarrel = 0;
+        xCoordBarrel = super.xCoord;
+        yCoordBarrel = super.getRadius() + super.yCoord;
     }
 }

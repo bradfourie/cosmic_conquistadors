@@ -1,3 +1,2 @@
-public class Critter{
-	
+public class Critter {
 }

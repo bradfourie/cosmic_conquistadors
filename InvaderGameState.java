@@ -1,245 +1,574 @@
-import static java.awt.event.KeyEvent.VK_C;
-import static java.awt.event.KeyEvent.VK_Q;
-import static java.awt.event.KeyEvent.VK_W;
-import static java.awt.event.KeyEvent.VK_X;
-import static java.awt.event.KeyEvent.VK_Z;
-import static java.awt.event.KeyEvent.VK_S;
-import static java.awt.event.KeyEvent.VK_A;
-import static java.awt.event.KeyEvent.VK_D;
-import static java.awt.event.KeyEvent.VK_LEFT;
-import static java.awt.event.KeyEvent.VK_RIGHT;
-import static java.awt.event.KeyEvent.VK_UP;
-import static java.awt.event.KeyEvent.VK_SPACE;
+import javafx.scene.effect.Light;
+
 import java.util.ArrayList;
 
+import static java.awt.event.KeyEvent.*;
 public class InvaderGameState{
-
-    private int startYCoordShooter = -80;
-    private int startXCoordShooter = 0;
-
-    public InvaderGameState(){
-
-        StdDraw.setXscale(-100, +100);
-        StdDraw.setYscale(-100, +100);
-
-        //while the user hasnt pressed q
-        //  start by drawing the menu
-        //  if user presses space start gameloop
-        //  while gameOver == false
-        //      gameOver == true if enemiesList has 0 elements
-        //      gameOver == true if enemy reaches bottom
-        //
-        // draw finish screen and display user score
-        // wait 5 seconds and restart gameloop
-
-        boolean gameStart = true;
-
-        while( !StdDraw.isKeyPressed(VK_Q) ) {
-            if(gameStart){
-                renderMenu();
-                if(StdDraw.isKeyPressed(VK_SPACE)) {
-                    gameStart = false;
-                }
-
-            }
-            if(!gameStart) {
-                //clear the screen
-                StdDraw.clear();
-
-                boolean gameOver = false;
-                boolean win = false;
-                int score = 0;
-
-                ArrayList<Enemy> enemiesList = new ArrayList<Enemy>();
-                ArrayList<Missile> missilesList = new ArrayList<Missile>();
-                StarBackground star;
-                ArrayList<StarBackground> starsList = new ArrayList<StarBackground>();
-                Shooter shooter = new Shooter(startXCoordShooter, startYCoordShooter, 0, 0);
-                StdDraw.setXscale(-100, +100);
-                StdDraw.setYscale(-100, +100);
-
-                int gameLoopCounter = 0;
-                int stepLastShot = 0;
-                int startYCoordEnemy = 96;
-                int startXCoordEnemy = -96;
-                int enemyXVelocity = 1;
-
-                //loops to initialise the grid of enemies
-                for (int i = 0; i < 24; i = i + 7) {
-                    for (int j = 0; j < 60; j = j + 7) {
-                        Enemy enemy = new Enemy(startXCoordEnemy + j, startYCoordEnemy - i, enemyXVelocity, 0);
-                        enemiesList.add(enemy);
-                    }
-                }
-
-                while (!gameOver) {
-                    //  moving left
-                    boolean isShot = false;
-                    if (StdDraw.isKeyPressed(VK_Z)) {
-                        shooter.setXVelocity(-2);
-                    }
-                    //  moving right
-                    if (StdDraw.isKeyPressed(VK_C)) {
-                        shooter.setXVelocity(2);
-                    }
-                    //  stop movement
-                    if (StdDraw.isKeyPressed(VK_X)) {
-                        shooter.setXVelocity(0);
-                    }
-                    // if W is pressed create a missile
-                    if (StdDraw.isKeyPressed(VK_W) && (stepLastShot + 20 < gameLoopCounter)) {
-                        stepLastShot = gameLoopCounter;
-                        isShot = true;
-                    }
-                    // if A is pressed rotate barrel left
-                    if (StdDraw.isKeyPressed(VK_A)) {
-                        shooter.setRadialVelocityBarrel(0.1);
-                    }
-                    // if D is pressed rotate barrel right
-                    if (StdDraw.isKeyPressed(VK_D)) {
-                        shooter.setRadialVelocityBarrel(-0.1);
-                    }
-                    // if S is pressed stop rotation
-                    if (StdDraw.isKeyPressed(VK_S)) {
-                        shooter.setRadialVelocityBarrel(0);
-                    }
-                    if (StdDraw.isKeyPressed(VK_Q)) {
-                        System.exit(0);
-                    }
-                    if (isShot) {
-                        Missile missile = new Missile(shooter);
-                        missilesList.add(missile);
-                    }
+  
+  private final int START_Y_COORD_SHOOTER = -300;
+  private final int START_X_COORD_SHOOTER = 0;
+  private final int START_Y_COORD_ENEMY = 300;
+  private final int START_X_COORD_ENEMY = -600;
+  private final int MAX_YCOORD = 360;
+  private final int MAX_XCOORD = 640;
+  
+  private int gameLoopCounter, score, round, coolDown1, coolDown2, shootProbability, powerUpStep;
+  private double enemyXVelocity;
+  private boolean gameOver, win, isShot1, isShot2, twoPlayer;
+  
+  private Shooter mainShooter, additionalShooter;
+  private StarBackground star;
+  private PowerUp powerUp;
+  
+  private ArrayList<Enemy> enemiesList;
+  private ArrayList<Missile> missilesList;
+  private ArrayList<StarBackground> starsList = new ArrayList<StarBackground>();
+  private ArrayList<PowerUp> powersList = new ArrayList<PowerUp>();
 
 
-                    shooter.move();
 
-                    //loop through enemiesList and update each enemies movement
-                    for (int i = 0; i < enemiesList.size(); i++) {
-                        boolean isDestroy = false;
-                        Enemy currentEnemy = enemiesList.get(i);
+  public void gameLoop(){
+    
+    while (!gameOver && !win) {
+      if(!twoPlayer && StdDraw.isKeyPressed(VK_P)){
+        additionalShooter= new Shooter(START_X_COORD_SHOOTER, START_Y_COORD_SHOOTER, 0, 0, 3);
+        twoPlayer = true;
+      }
 
-                        for (int j = 0; j < missilesList.size(); j++) {
-                            Missile currentMissile = missilesList.get(j);
-                            if (currentEnemy.onMissileCollision(currentMissile)) {
-                                isDestroy = true;
-                                enemiesList.remove(i);
-                                missilesList.remove(j);
-                                score = score + 10;
-                                break;
-                            }
-                        }
-
-                        if (!isDestroy) {
-                            currentEnemy.move();
-                        }
-
-                    }
-
-                    //loop through missilesList and update each missiles movement
-                    for (int i = 0; i < missilesList.size(); i++) {
-                        Missile currentMissile = missilesList.get(i);
-
-                        //can anyone tell me what this +1 is for, if so please say on the group xD
-                        if (Math.abs(currentMissile.getXCoord() + currentMissile.getRadius()) + 1 > 100) {
-                            currentMissile.wallBounce();
-                        }
-
-                        if (currentMissile.getYCoord() == 100 || currentMissile.getNumBounced() >= 2) {
-                            // remove if its bounced more than once OR if its at the top of screen
-                            missilesList.remove(i);
-                        } else {
-                            currentMissile.move();
-                        }
-                    }
-
-                    int x = (int)(Math.random() * 600);
-                    double length = Math.random();
-                    double sign = Math.random();
-                    if(sign > 0.5){
-                        x = -x;
-                    }
-                    star = new StarBackground(x , 100 , length);
-                    if(x >= -100 && x <= 100){
-                        starsList.add(star);
-                    }
-
-                    for(int i = 0 ; i < starsList.size() ; i ++){
-                        StarBackground currentStar = starsList.get(i);
-                        if(currentStar.getTailYCoord() < -100){
-                            starsList.remove(i);
-                        }else{
-                            currentStar.move();
-                        }
-                    }
-                    //drawing the score
-                    StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
-                    StdDraw.text(-85, 95, "score: " + score);
-
-
-                    StdDraw.show(30);
-                    StdDraw.clear(StdDraw.BLACK);
-                    gameLoopCounter++;
-
-
-                    //checking if the game is over
-                    //first check if any enemies are left
-                    if (enemiesList.size() == 0) {
-                        gameOver = true;
-                        win = true;
-                    }
-                    //then loop through enemies and see if any enemy has touched the bottom of the grid
-                    for (int i = 0; i < enemiesList.size(); i++) {
-                        Enemy currentEnemy = enemiesList.get(i);
-
-                        if (Math.abs(currentEnemy.getYCoord() + currentEnemy.getRadius()) == -100) {
-                            gameOver = true;
-                        }
-                    }
-                }
-
-                //ok cool now draw the game over screen
-                renderEndGame(win, score);
-                try  {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e){
-                    //just here because java wants it to be here
-                }
-
-            }
+      isShot1 = false;
+      mainShooterKeyPresses();
+      mainShooter.move();
+      if(powerUpStep + 40 < gameLoopCounter){
+        mainShooter.setPowerUp(0);
+      }
+      if(twoPlayer){
+        isShot2 = false;
+        additionalShooterKeyPresses();
+        additionalShooter.move();
+      }
+      
+      updateEnemyMovement();
+      updateMissileMovement();
+      updateBackground();
+      updatePowerUpMovement();
+      checkWin();
+      checkGameOver();
+      
+      renderUI();
+      
+      StdDraw.show(30);
+      StdDraw.clear(StdDraw.BLACK);
+      gameLoopCounter++;
+    }
+    
+  }
+  
+  public void initializeStartRound() {
+    powerUpStep = 0;
+    gameLoopCounter = 0;
+    coolDown1 = 0;
+    coolDown2 = 0;
+    round = 1;
+    score = 0;
+    enemyXVelocity = 2;
+    shootProbability = 1500;
+    
+    gameOver = false;
+    win = false;
+    twoPlayer = false;
+    
+    enemiesList = new ArrayList<Enemy>();
+    missilesList = new ArrayList<Missile>();
+    
+    enemiesList.clear();
+    missilesList.clear();
+    powersList.clear();
+    
+    mainShooter = new Shooter(START_X_COORD_SHOOTER, START_Y_COORD_SHOOTER, 0, 0, 3);
+    mainShooter.setPowerUp(0);
+    initializeEnemies();
+  }
+  
+  public void initializeNextRound(){
+    gameLoopCounter = 0;
+    round++;
+    powerUpStep = 0;
+    win = false;
+    
+    mainShooter.resetState(20, START_Y_COORD_SHOOTER);
+    coolDown1 = 0;
+    
+    if(twoPlayer){
+      additionalShooter.resetState(60, START_Y_COORD_SHOOTER);
+      coolDown2 = 0;
+    }
+    
+    enemiesList = new ArrayList<Enemy>();
+    missilesList = new ArrayList<Missile>();
+    
+    enemiesList.clear();
+    missilesList.clear();
+    powersList.clear();
+    mainShooter.setPowerUp(0);
+    initializeEnemies();
+  }
+  
+  
+  
+  public void initializeEnemies(){
+    
+    switch (round){
+      case 1:
+        //only light enemies
+        setupLightEnemyGrid(START_X_COORD_ENEMY, START_Y_COORD_ENEMY, 8, 3);
+        break;
+      case 2:
+        //main light enemies and top row of heavy enemies
+        setupHeavyEnemyGrid(START_X_COORD_ENEMY, START_Y_COORD_ENEMY, 8, 1);
+        setupLightEnemyGrid(START_X_COORD_ENEMY , START_Y_COORD_ENEMY - 80, 10, 3);
+        break;
+      case 3:
+        //half light and half heavy enemies
+        setupHeavyEnemyGrid(START_X_COORD_ENEMY, START_Y_COORD_ENEMY, 10, 2);
+        setupLightEnemyGrid(START_X_COORD_ENEMY + 40 , START_Y_COORD_ENEMY - 120, 10, 3);
+        break;
+      case 4:
+        //only heavy enemies
+        setupHeavyEnemyGrid(START_X_COORD_ENEMY, START_Y_COORD_ENEMY, 10, 3);
+        break;
+      case 5:
+        //final boss fight
+        setupBossEnemyGrid(START_X_COORD_ENEMY, START_Y_COORD_ENEMY);
+        break;
+    }
+    
+  }
+  public void setupLightEnemyGrid(int start_x_coord, int start_y_coord, int xNumberEnemy, int yNumberEnemy){
+    int enemyRadius = 18;
+    int gap = 18;
+    int enemySpace = enemyRadius + gap;
+    for (int i = 0; i < (yNumberEnemy * enemySpace); i = i + (enemySpace) ){
+      for (int j = 0; j < (xNumberEnemy * enemySpace); j = j + (enemySpace)) {
+        LightEnemy enemy = new LightEnemy(start_x_coord + j, start_y_coord - i, enemyXVelocity, 0);
+        enemiesList.add(enemy);
+      }
+    }
+  }
+  public void setupHeavyEnemyGrid(int start_x_coord, int start_y_coord, int xNumberEnemy, int yNumberEnemy){
+    int enemyRadius = 20;
+    int gap = 20;
+    start_x_coord = start_x_coord + enemyRadius;
+    start_y_coord = start_y_coord - enemyRadius;
+    int enemySpace = enemyRadius + gap;
+    for (int i = 0; i < (yNumberEnemy * enemySpace); i = i + (enemySpace) ){
+      for (int j = 0; j < (xNumberEnemy * enemySpace); j = j + (enemySpace)) {
+        HeavyEnemy enemy = new HeavyEnemy(start_x_coord + j, start_y_coord - i, enemyXVelocity, 0);
+        enemiesList.add(enemy);
+      }
+    }
+  }
+  
+  public void setupBossEnemyGrid(int start_x_coord, int start_y_coord){
+    start_x_coord = start_x_coord + 50;
+    start_y_coord = start_y_coord - 50;
+    BossEnemy enemy = new BossEnemy(start_x_coord, start_y_coord, enemyXVelocity/2, 0);
+    enemiesList.add(enemy);
+  }
+  
+  public void updateEnemyMovement(){
+    //loop through enemiesList and update each enemies movement
+    boolean isEdge = false;
+    
+    for(int a = 0 ; a < enemiesList.size() ; a++){
+      Enemy currentEnemy = enemiesList.get(a);
+      if( (currentEnemy.getXCoord() - currentEnemy.getRadius()) <= -MAX_XCOORD ||  (currentEnemy.getXCoord() + currentEnemy.getRadius())>= MAX_XCOORD){
+        isEdge = true;
+        break;
+      }
+    }
+    
+    for (int i = 0; i < enemiesList.size(); i++) {
+      boolean isDestroy = false;
+      Enemy currentEnemy = enemiesList.get(i);
+      
+      for (int j = 0; j < missilesList.size(); j++) {
+        Missile currentMissile = missilesList.get(j);
+        
+        if (currentEnemy.onMissileCollision(currentMissile) && !(currentMissile instanceof EnemyMissile)) {
+          isDestroy = true;
+          currentEnemy.removeLife();
+          if(currentEnemy.getLives() == 0){
+            enemiesList.remove(i);
+            
+          }
+          missilesList.remove(j);
+          score = score + 10;
+          break;
         }
-
-        System.exit(0);
-    }
-
-    public void renderMenu(){
-
-        StdDraw.setPenColor(StdDraw.BLACK);
-        // Drawing controls text
-        StdDraw.text(0,10,"Quit(q), Screencap (p)");
-        StdDraw.text(0,20,"Move: Left (z), Stop(x), Right(c)");
-        StdDraw.text(0,30,"Rotate: Left (a), Stop (s), Right(d)");
-        StdDraw.text(0,40,"Shoot (w)");
-        StdDraw.text(0,60,"Press Space to Save The World");
-        //Setting Title Size
-        StdDraw.setFont();
-        //Drawing Title
-        StdDraw.text(0,75,"COSMIC CONQUISTADORS");
-
-        StdDraw.show();
-    }
-
-    public void renderEndGame(boolean win, double score){
-        StdDraw.setPenColor(StdDraw.BLACK);
-
-        if(win){
-            StdDraw.text(0,10,"Congratulations! You saved the World!");
-            StdDraw.text(0,20,"Your score is: " + score);
-        }else{
-            StdDraw.text(0,10,"You have failed, humanity lies in ruins");
-            StdDraw.text(0,20,"Your score is: " + score);
+      }
+      if(enemiesList.size() > i){
+        if(enemiesList.get(i) instanceof LightEnemy){
+          LightEnemy lightEnemy = (LightEnemy) enemiesList.get(i);
+          lightEnemyMovement(lightEnemy, isDestroy, isEdge);
         }
-
-        StdDraw.show();
+        if(enemiesList.get(i) instanceof HeavyEnemy){
+          HeavyEnemy heavyEnemy = (HeavyEnemy) enemiesList.get(i);
+          heavyEnemyMovement(heavyEnemy, isDestroy, isEdge);
+        }
+        if(enemiesList.get(i) instanceof BossEnemy){
+          BossEnemy bossEnemy = (BossEnemy) enemiesList.get(i);
+          bossEnemyMovement(bossEnemy, isDestroy, isEdge);
+        }
+        
+      }
     }
+  }
+  public void lightEnemyMovement(LightEnemy lightEnemy, boolean isDestroy, boolean isEdge){
+    
+    if(isEdge){
+      lightEnemy.moveY();
+      lightEnemy.render();
+    }else{
+      lightEnemy.moveX();
+      lightEnemy.render();
+    }
+    
+    if(lightEnemy.isShoot()){
+      EnemyMissile missile = new EnemyMissile(lightEnemy);
+      missilesList.add(missile);
+      EnemyMissileNoise();
+    }
+    
+  }
+  public void heavyEnemyMovement(HeavyEnemy heavyEnemy, boolean isDestroy, boolean isEdge){
+    
+    if(isEdge){
+      heavyEnemy.moveY();
+      heavyEnemy.render();
+    }else{
+      heavyEnemy.moveX();
+      heavyEnemy.render();
+    }
+    
+    if(heavyEnemy.isShoot()){
+      EnemyMissile missile = new EnemyMissile(heavyEnemy);
+      missilesList.add(missile);
+      EnemyMissileNoise();
+    }
+    
+  }
+  public void bossEnemyMovement(BossEnemy bossEnemy, boolean isDestroy, boolean isEdge){
+    if (!isDestroy) {
+      if(isEdge){
+        bossEnemy.moveY();
+        bossEnemy.render();
+      }else{
+        bossEnemy.moveX();
+        bossEnemy.render();
+      }
+      
+      if(bossEnemy.isShoot()){
+        EnemyMissile missile = new EnemyMissile(bossEnemy);
+        missilesList.add(missile);
+        EnemyMissileNoise();
+      }
+    }
+  }
+  
+  public void updateMissileMovement(){
+    //loop through missilesList and update each missiles movement
+    for (int i = 0; i < missilesList.size(); i++) {
+      if(missilesList.size() > i){
+        if(missilesList.get(i) instanceof EnemyMissile && missilesList.size() > 0) {
+          EnemyMissile enemyMissile = (EnemyMissile) missilesList.get(i);
+          enemyMissileMovement(enemyMissile, i);
+        }
+      }
+      if(missilesList.size() > i){
+        if (missilesList.get(i) instanceof NormalMissile && missilesList.size() > 0) {
+          NormalMissile normalMissile = (NormalMissile) missilesList.get(i);
+          normalMissileMovement(normalMissile, i);
+        }
+      }
+    }
+  }
+  
+  
+  
+  public void enemyMissileMovement(EnemyMissile enemyMissile, int position){
+    
+    if (Math.abs(enemyMissile.getXCoord() + enemyMissile.getRadius()) + enemyMissile.getRadius() > MAX_XCOORD) {
+      enemyMissile.wallBounce();
+    }
+    if (enemyMissile.getYCoord() <= -MAX_YCOORD || enemyMissile.getNumBounced() >= 2) {
+      missilesList.remove(position);
+    } else {
+      
+      enemyMissile.move();
+      enemyMissile.render();
+    }
+    
+  }
+  public void normalMissileMovement(NormalMissile normalMissile, int position){
+    
+    if (Math.abs(normalMissile.getXCoord() + normalMissile.getRadius()) + normalMissile.getRadius() > MAX_XCOORD) {
+      normalMissile.wallBounce();
+    }
+    if (normalMissile.getYCoord() >= MAX_YCOORD || normalMissile.getNumBounced() >= 2) {
+      missilesList.remove(position);
+    }  else {
+      normalMissile.move();
+      normalMissile.render();
+    }
+    
+  }
+  
+  public void updateBackground(){
+    int x = (int)(Math.random() *800);
+    double length = Math.random();
+    double sign = Math.random();
+    if(sign > 0.5){
+      x = -x;
+    }
+    star = new StarBackground(x , MAX_YCOORD, length/1.1);
+    if(x >= -MAX_XCOORD && x <= MAX_XCOORD){
+      starsList.add(star);
+    }
+    
+    for(int i = 0 ; i < starsList.size() ; i ++){
+      StarBackground currentStar = starsList.get(i);
+      if (currentStar.getTailYCoord() < -MAX_YCOORD){
+        starsList.remove(i);
+      } else {
+        currentStar.move();
+      }
+    }
+  }
+  
+  public void updatePowerUpMovement(){
+    int x = (int)(Math.random() *15000);
+    double length = 5;
+    double sign = Math.random();
+    if(sign > 0.5){
+      x = -x;
+    }
+    powerUp = new PowerUp(x , MAX_YCOORD, length);
+    if(x >= -MAX_XCOORD && x <= MAX_XCOORD && Math.random() < 0.5){
+      powersList.add(powerUp);
+    }
+    
+    for(int i = 0 ; i < powersList.size() ; i ++){
+      PowerUp currentPowerUp = powersList.get(i);
+      int space = 10;
+      double dis = Math.sqrt(Math.pow( (currentPowerUp.getXCoord() + currentPowerUp.getRadius()) - (mainShooter.getXCoord() + mainShooter.getRadius()) , 2) + Math.pow((currentPowerUp.getYCoord() + currentPowerUp.getRadius()) - (mainShooter.getYCoord() + mainShooter.getRadius()), 2));
+      if (dis <= space){
+        mainShooter.setPowerUp(currentPowerUp.getPower());
+        powersList.remove(i);
+        powerUpStep = gameLoopCounter;
+      } else if(currentPowerUp.getYCoord() < -MAX_YCOORD) {
+        powersList.remove(i);
+      } else if(dis <= (currentPowerUp.getRadius() + mainShooter.getRadius())){
+        powersList.remove(i);
+      }else{
+        currentPowerUp.move();
+      }
+    }
+  }
+  
+  public void renderUI(){
+    StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
+    
+    StdDraw.text(-600, 340, "score: " + score);
+    StdDraw.text(-600, 310, "lives: " + mainShooter.getLives());
+    if(twoPlayer){
+      StdDraw.text(-600, 280, "lives: " + additionalShooter.getLives());
+    }
+    StdDraw.text(600, 340, "round: " + round);
+  }
+  
+  public void checkGameOver(){
+    for (int i = 0; i < enemiesList.size(); i++) {
+      Enemy currentEnemy = enemiesList.get(i);
+      //loop through enemies and see if any enemy has touched the bottom of the grid
+      if (Math.abs(currentEnemy.getYCoord() + currentEnemy.getRadius()) == -100) {
+        gameOver = true;
+      }
+      //also check if one of the enemies have touched the shooter
+      if (currentEnemy.isShooterCollision(mainShooter)) {
+        mainShooter.removeLife();
+        enemiesList.remove(i);
+        DestroyNoise();
+      }
+      //also check if one of the enemies have touched the additional shooter
+      if (twoPlayer) {
+        if(currentEnemy.isShooterCollision(additionalShooter)) {
+          additionalShooter.removeLife();
+          enemiesList.remove(i);
+          DestroyNoise();
+        }
+      }
+    }
+    
+    //also check if an enemy missile has touched the shooter
+    for(int i=0; i<missilesList.size(); i++){
+      Missile currentMissile = missilesList.get(i);
+      if(currentMissile instanceof EnemyMissile){
+        EnemyMissile enemyMissile = (EnemyMissile) currentMissile;
+        if(enemyMissile.isShooterCollision(mainShooter)){
+          mainShooter.removeLife();
+          missilesList.remove(i);
+          DestroyNoise();
+        }
+        if(twoPlayer){
+          if(enemyMissile.isShooterCollision(additionalShooter)){
+            additionalShooter.removeLife();
+            missilesList.remove(i);
+            DestroyNoise();
+          }
+        }
+      }
+    }
+    
+    if(mainShooter.getLives() == 0){
+      gameOver = true;
+    }
+  }
+  
+  public void checkWin(){
+    if (enemiesList.size() == 0) {
+      win = true;
+    }
+  }
+  
+  public int getScore(){
+    return  score;
+  }
+  
+  public int getRound(){
+    return round;
+  }
+  
+  public boolean isGameOver(){
+    return gameOver;
+  }
+  
+  public boolean isWin(){
+    return win;
+  }
+  
+  public void mainShooterKeyPresses() {
+
+    if (StdDraw.isKeyPressed(VK_Z)) {
+      mainShooter.setXVelocity(-8);
+    }
+    if (StdDraw.isKeyPressed(VK_C)) {
+      mainShooter.setXVelocity(8);
+    }
+    if (StdDraw.isKeyPressed(VK_X)) {
+      mainShooter.setXVelocity(0);
+    }
+    if (mainShooter.getPower() == 0 || mainShooter.getPower() == 2) {
+      if (StdDraw.isKeyPressed(VK_W) && (coolDown1 + 20 < gameLoopCounter)) {
+        coolDown1 = gameLoopCounter;
+        isShot1 = true;
+      }
+    } else {
+      if (StdDraw.isKeyPressed(VK_W)) {
+
+        isShot1 = true;
+      }
+    }
+    if (StdDraw.isKeyPressed(VK_A)) {
+      mainShooter.setRadialVelocityBarrel(3);
+    }
+    if (StdDraw.isKeyPressed(VK_D)) {
+      mainShooter.setRadialVelocityBarrel(-3);
+    }
+    if (StdDraw.isKeyPressed(VK_S)) {
+      mainShooter.setRadialVelocityBarrel(0);
+    }
+    if (StdDraw.isKeyPressed(VK_Q)) {
+      System.exit(0);
+    }
+    if (StdDraw.isKeyPressed(VK_P)) {
+      //StdDraw.save();
+    }
+    if (isShot1 && mainShooter.getPower() != 2) {
+      NormalMissile normalMissile = new NormalMissile(mainShooter);
+      missilesList.add(normalMissile);
+
+      ShooterMissileNoise();
+
+    } else if (isShot1 && mainShooter.getPower() == 2) {
+
+      NormalMissile normalMissile = new NormalMissile(mainShooter, 10);
+      missilesList.add(normalMissile);
+
+      NormalMissile normalMissile1 = new NormalMissile(mainShooter, -10);
+      missilesList.add(normalMissile1);
+
+      NormalMissile normalMissile2 = new NormalMissile(mainShooter);
+      missilesList.add(normalMissile2);
+
+      ShooterMissileNoise();
+    }
+  }
+
+  private void ShooterMissileNoise() {
+    new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                StdAudio.play("shooter_missile.wav");
+              }
+            }).start();
+  }
+  private void EnemyMissileNoise() {
+    new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                StdAudio.play("enemy_missile.wav");
+              }
+            }).start();
+  }
+  private void DestroyNoise() {
+    new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                StdAudio.play("destroy.wav");
+              }
+            }).start();
+  }
+
+  public void additionalShooterKeyPresses (){
+      if (StdDraw.isKeyPressed(VK_NUMPAD1)) {
+        additionalShooter.setXVelocity(-8);
+      }
+      if (StdDraw.isKeyPressed(VK_NUMPAD3)) {
+        additionalShooter.setXVelocity(8);
+      }
+      if (StdDraw.isKeyPressed(VK_NUMPAD2)) {
+        additionalShooter.setXVelocity(0);
+      }
+      if (StdDraw.isKeyPressed(VK_NUMPAD8) && (coolDown2 + 20 < gameLoopCounter)) {
+        coolDown2 = gameLoopCounter;
+        isShot2 = true;
+      }
+      if (StdDraw.isKeyPressed(VK_NUMPAD4)) {
+        additionalShooter.setRadialVelocityBarrel(3);
+      }
+      if (StdDraw.isKeyPressed(VK_NUMPAD6)) {
+        additionalShooter.setRadialVelocityBarrel(-3);
+      }
+      if (StdDraw.isKeyPressed(VK_NUMPAD5)) {
+        additionalShooter.setRadialVelocityBarrel(0);
+      }
+      if (isShot2) {
+        NormalMissile normalMissile = new NormalMissile(additionalShooter);
+        missilesList.add(normalMissile);
+      }
+  }
+
 }

@@ -1,10 +1,11 @@
 public class Missile extends DefaultCritter{
     private int numBounced; //counts the number of bounces a missile has made
+    protected double angle; //the angle that determines the direction the bullet is facing
 
-    public Missile(Shooter shooter){
+    public Missile(double xCoord, double yCoord, double xVelocity, double yVelocity, double radius){
         //here the magical constant 5 is the magnitude of the velocity
-        //and the magical constant 1 is the radius of the missile
-        super(shooter.getXCoordBarrel(), shooter.getYCoordBarrel(), 5 * Math.cos(shooter.getAngleBarrel()), 5 * Math.sin(shooter.getAngleBarrel()), 1);
+        //and the magical constant 1.5 is the radius of the missile
+        super(xCoord, yCoord, xVelocity, yVelocity, radius);
         this.numBounced = 0;
     }
 
@@ -15,6 +16,7 @@ public class Missile extends DefaultCritter{
     public void wallBounce(){
         numBounced++;
         super.xVelocity = - super.xVelocity;
+        angle=-angle;
     }
 
     public double getXCoord(){
@@ -29,17 +31,16 @@ public class Missile extends DefaultCritter{
         return super.radius;
     }
 
+
     public void move(){
+      StdDraw.setPenColor(StdDraw.YELLOW);
         super.xCoord = super.xCoord + super.xVelocity;
         super.yCoord = super.yCoord + super.yVelocity;
-
-        render();
+        StdDraw.filledCircle(super.xCoord, super.yCoord , radius);
     }
-
-    public void render(){
-        StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.filledCircle(super.xCoord,super.yCoord,super.radius);
-    }
+    
+   /* public void render(){
+        StdDraw.picture(super.xCoord,super.yCoord,"BulletYellow.png",super.radius*5,super.radius*2,angle);
+    }*/
 
 }
-
