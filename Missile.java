@@ -5,7 +5,7 @@ public class Missile extends DefaultCritter{
     public Missile(double xCoord, double yCoord, double xVelocity, double yVelocity, double radius){
         //here the magical constant 5 is the magnitude of the velocity
         //and the magical constant 1.5 is the radius of the missile
-        super(xCoord, yCoord, xVelocity, xVelocity, radius);
+        super(xCoord, yCoord, xVelocity, yVelocity, radius);
         this.numBounced = 0;
     }
 
