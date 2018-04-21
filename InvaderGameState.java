@@ -14,7 +14,7 @@ public class InvaderGameState{
   
   private int gameLoopCounter, score, round, coolDown1, coolDown2, shootProbability, powerUpStep;
   private double enemyXVelocity;
-  private boolean gameOver, win, isShot1, isShot2, twoPlayer;
+  private boolean gameOver, win, isShot1, isShot2, twoPlayer, powActive;
   
   private Shooter mainShooter, additionalShooter;
   private StarBackground star;
@@ -38,8 +38,11 @@ public class InvaderGameState{
       isShot1 = false;
       mainShooterKeyPresses();
       mainShooter.move();
+      if(powActive){
       if(powerUpStep + 40 < gameLoopCounter){
         mainShooter.setPowerUp(0);
+        powActive = false;
+      }
       }
       if(twoPlayer){
         isShot2 = false;
@@ -72,7 +75,7 @@ public class InvaderGameState{
     score = 0;
     enemyXVelocity = 2;
     shootProbability = 1500;
-    
+    powActive = false;
     gameOver = false;
     win = false;
     twoPlayer = false;
@@ -94,7 +97,7 @@ public class InvaderGameState{
     round++;
     powerUpStep = 0;
     win = false;
-    
+    powActive = false;
     mainShooter.resetState(20, START_Y_COORD_SHOOTER);
     coolDown1 = 0;
     
@@ -236,7 +239,7 @@ public class InvaderGameState{
     if(lightEnemy.isShoot()){
       EnemyMissile missile = new EnemyMissile(lightEnemy);
       missilesList.add(missile);
-      EnemyMissileNoise();
+      //EnemyMissileNoise();
     }
     
   }
@@ -253,7 +256,7 @@ public class InvaderGameState{
     if(heavyEnemy.isShoot()){
       EnemyMissile missile = new EnemyMissile(heavyEnemy);
       missilesList.add(missile);
-      EnemyMissileNoise();
+      //EnemyMissileNoise();
     }
     
   }
@@ -270,7 +273,7 @@ public class InvaderGameState{
       if(bossEnemy.isShoot()){
         EnemyMissile missile = new EnemyMissile(bossEnemy);
         missilesList.add(missile);
-        EnemyMissileNoise();
+        //EnemyMissileNoise();
       }
     }
   }
@@ -361,15 +364,13 @@ public class InvaderGameState{
       PowerUp currentPowerUp = powersList.get(i);
       int space = 10;
       double dis = Math.sqrt(Math.pow( (currentPowerUp.getXCoord() + currentPowerUp.getRadius()) - (mainShooter.getXCoord() + mainShooter.getRadius()) , 2) + Math.pow((currentPowerUp.getYCoord() + currentPowerUp.getRadius()) - (mainShooter.getYCoord() + mainShooter.getRadius()), 2));
-      if (dis <= space){
+      if (dis <= (currentPowerUp.getRadius() + mainShooter.getRadius())){
         mainShooter.setPowerUp(currentPowerUp.getPower());
         powersList.remove(i);
-        powerUpStep = gameLoopCounter;
+        powActive = false;
       } else if(currentPowerUp.getYCoord() < -MAX_YCOORD) {
         powersList.remove(i);
-      } else if(dis <= (currentPowerUp.getRadius() + mainShooter.getRadius())){
-        powersList.remove(i);
-      }else{
+      } else{
         currentPowerUp.move();
       }
     }
@@ -377,13 +378,20 @@ public class InvaderGameState{
   
   public void renderUI(){
     StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
-    
-    StdDraw.text(-600, 340, "score: " + score);
-    StdDraw.text(-600, 310, "lives: " + mainShooter.getLives());
-    if(twoPlayer){
-      StdDraw.text(-600, 280, "lives: " + additionalShooter.getLives());
+    StdDraw.text(-580, 325, "Score: " + score);
+    StdDraw.text(-580, -335, "Player 1: ");
+    for(int i = 1 ; i <= mainShooter.getLives() ; i++){
+      StdDraw.picture((-540 + i * 30),-335,"HEART.png", 30 , 35);
     }
-    StdDraw.text(600, 340, "round: " + round);
+    
+    if(twoPlayer){
+      for(int i = 1 ; i <= additionalShooter.getLives() ; i++){
+      StdDraw.picture((-540 + i * 30),-285,"HEART.png", 30 , 35);
+    }
+      StdDraw.text(-580, -285, "Player 2: ");
+    }
+     
+    StdDraw.text(580, 325, "Round: " + round);
   }
   
   public void checkGameOver(){
@@ -397,14 +405,14 @@ public class InvaderGameState{
       if (currentEnemy.isShooterCollision(mainShooter)) {
         mainShooter.removeLife();
         enemiesList.remove(i);
-        DestroyNoise();
+        //DestroyNoise();
       }
       //also check if one of the enemies have touched the additional shooter
       if (twoPlayer) {
         if(currentEnemy.isShooterCollision(additionalShooter)) {
           additionalShooter.removeLife();
           enemiesList.remove(i);
-          DestroyNoise();
+          //DestroyNoise();
         }
       }
     }
@@ -417,13 +425,13 @@ public class InvaderGameState{
         if(enemyMissile.isShooterCollision(mainShooter)){
           mainShooter.removeLife();
           missilesList.remove(i);
-          DestroyNoise();
+          //DestroyNoise();
         }
         if(twoPlayer){
           if(enemyMissile.isShooterCollision(additionalShooter)){
             additionalShooter.removeLife();
             missilesList.remove(i);
-            DestroyNoise();
+            //DestroyNoise();
           }
         }
       }
@@ -496,8 +504,12 @@ public class InvaderGameState{
     if (isShot1 && mainShooter.getPower() != 2) {
       NormalMissile normalMissile = new NormalMissile(mainShooter);
       missilesList.add(normalMissile);
-
-      ShooterMissileNoise();
+      if(!powActive){
+        
+        powerUpStep = gameLoopCounter;
+      }
+      powActive = true;
+      //ShooterMissileNoise();
 
     } else if (isShot1 && mainShooter.getPower() == 2) {
 
@@ -509,12 +521,16 @@ public class InvaderGameState{
 
       NormalMissile normalMissile2 = new NormalMissile(mainShooter);
       missilesList.add(normalMissile2);
-
-      ShooterMissileNoise();
+      if(!powActive){
+        
+        powerUpStep = gameLoopCounter;
+      }
+      powActive = true;
+      //ShooterMissileNoise();
     }
   }
 
-  private void ShooterMissileNoise() {
+  /*private void ShooterMissileNoise() {
     new Thread(
             new Runnable() {
               @Override
@@ -540,7 +556,7 @@ public class InvaderGameState{
                 StdAudio.play("destroy.wav");
               }
             }).start();
-  }
+  }*/
 
   public void additionalShooterKeyPresses (){
       if (StdDraw.isKeyPressed(VK_NUMPAD1)) {
