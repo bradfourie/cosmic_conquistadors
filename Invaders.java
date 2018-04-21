@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import static java.awt.event.KeyEvent.VK_Q;
 import static java.awt.event.KeyEvent.VK_SPACE;
 
+
 public class Invaders {
   
   
@@ -29,6 +30,13 @@ public class Invaders {
       }
       
       if(!gameStart) {
+          /*new Thread(
+                  new Runnable() {
+                      @Override
+                      public void run() {
+                          StdAudio.loop("Background_CANCER.wav");
+                      }
+                  }).start();*/
         invaderGameState.gameLoop();
       }
 
