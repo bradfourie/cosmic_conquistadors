@@ -3,21 +3,24 @@
  */
 public class PowerUp {
   
-  /* ADD YOUR CODE HERE */
-  public double x;
-  public double y;
-  public double length;
-  public double velocity = 8;
-  public int power;
+  //instead of power 1 and 2 rather do this
+  /*private final int GATLING_MISSILE = 0;
+  private final int TRI_MISSILE = 1;*/
+  private double x;
+  private double y;
+  private double length;
+  private double velocity;
+  private int power;
   
   public PowerUp(int x, int y, double length){
     this.x = x;
     this.y = y;
     this.length = length;
+    this.velocity = 8;
     if(Math.random() < 0.3){
-      power = 1;
+      this.power = 1;
     }else{
-      power = 2;
+      this.power = 2;
     }
   }
   
