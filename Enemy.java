@@ -54,7 +54,7 @@ public class Enemy extends DefaultCritter {
     }
 
    public void moveY(){
-    super.yCoord = super.yCoord - super.radius*2; 
+    super.yCoord = super.yCoord - 60; 
     invertVelocity();
     moveX();
   }

@@ -20,6 +20,8 @@ public class Invaders {
     StdDraw.setYscale(-360, 360);
     
     boolean gameStart = true;
+    boolean colour = true;
+    int colourCounter = 0;
     
     InvaderGameState invaderGameState = new InvaderGameState();
     invaderGameState.initializeStartRound();
@@ -27,7 +29,15 @@ public class Invaders {
     while( !StdDraw.isKeyPressed(VK_Q) ) {
       
       if (gameStart) {
-        renderMenu();
+        renderMenu(colour);
+        colourCounter++;
+        if(colour&&colourCounter==12){
+          colourCounter=0;
+          colour=false;
+        }else if(!colour&&colourCounter==12){
+          colourCounter=0;
+          colour=true;
+        }
         if (StdDraw.isKeyPressed(VK_SPACE)) {
           gameStart = false;
         }
@@ -63,7 +73,7 @@ public class Invaders {
   }
   
   
-  public static void renderMenu(){
+  public static void renderMenu(boolean colour){
     try {
     //create the font to use. Specify the size!
     Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("operational amplifier.ttf")).deriveFont(45f);
@@ -79,12 +89,23 @@ public class Invaders {
     StdDraw.setPenColor(StdDraw.BLACK);
     StdDraw.filledRectangle(0,0,640,360);
     StdDraw.setPenColor(StdDraw.WHITE);
-    StdDraw.text(0,-40,"Quit(q), Screencap (p)");
-    StdDraw.text(0,10,"Move: Left (z), Stop(x), Right(c)");
-    StdDraw.text(0,60,"Rotate: Left (a), Stop (s), Right(d)");
-    StdDraw.text(0,110,"Shoot (w)");
-    StdDraw.text(0,160,"Press (Spacebar) to Save The World!");
+    StdDraw.text(0,-90,"Quit(q), Screencap (p)");
+    StdDraw.text(0,-40,"Move: Left (z), Stop(x), Right(c)");
+    StdDraw.text(0,10,"Rotate: Left (a), Stop (s), Right(d)");
+    StdDraw.text(0,60,"Shoot (w)");
+    StdDraw.setPenColor(StdDraw.GREEN);
     StdDraw.text(0,300,"COSMIC CONQUISTADORS");
+    if(colour){
+      StdDraw.setPenColor(StdDraw.BLUE);
+      StdDraw.rectangle(0,-12,250,105);
+      StdDraw.setPenColor(StdDraw.WHITE);
+      StdDraw.text(0,190,"Press (Spacebar) to Save The World!");
+    }else{
+      StdDraw.setPenColor(StdDraw.RED);
+      StdDraw.rectangle(0,-12,250,105);
+      StdDraw.setPenColor(StdDraw.YELLOW);
+      StdDraw.text(0,190,"Press (Spacebar) to Save The World!");
+    }
     StdDraw.show(30);
   }
   
