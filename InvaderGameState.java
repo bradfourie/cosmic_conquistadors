@@ -31,7 +31,7 @@ public class InvaderGameState{
     
     while (!gameOver && !win) {
       if(!twoPlayer && StdDraw.isKeyPressed(VK_P)){
-        additionalShooter= new Shooter(START_X_COORD_SHOOTER, START_Y_COORD_SHOOTER, 0, 0, 3);
+        additionalShooter= new Shooter(START_X_COORD_SHOOTER, START_Y_COORD_SHOOTER, 0, 0, 3, false);
         twoPlayer = true;
       }
 
@@ -87,7 +87,7 @@ public class InvaderGameState{
     missilesList.clear();
     powersList.clear();
     
-    mainShooter = new Shooter(START_X_COORD_SHOOTER, START_Y_COORD_SHOOTER, 0, 0, 3);
+    mainShooter = new Shooter(START_X_COORD_SHOOTER, START_Y_COORD_SHOOTER, 0, 0, 3, true);
     mainShooter.setPowerUp(0);
     initializeEnemies();
   }
