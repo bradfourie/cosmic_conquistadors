@@ -3,12 +3,14 @@ import javafx.scene.effect.Light;
 import java.util.ArrayList;
 
 import static java.awt.event.KeyEvent.*;
+
 public class InvaderGameState{
   
   private final int START_Y_COORD_SHOOTER = -300;
   private final int START_X_COORD_SHOOTER = 0;
   private final int START_Y_COORD_ENEMY = 300;
   private final int START_X_COORD_ENEMY = -600;
+  private final int START_Y_COORD_BUNKER = -200;
   private final int MAX_YCOORD = 360;
   private final int MAX_XCOORD = 640;
   
@@ -22,6 +24,7 @@ public class InvaderGameState{
   
   private ArrayList<Enemy> enemiesList;
   private ArrayList<Missile> missilesList;
+  private ArrayList<Bunker> bunkersList;
   private ArrayList<StarBackground> starsList = new ArrayList<StarBackground>();
   private ArrayList<PowerUp> powersList = new ArrayList<PowerUp>();
 
@@ -38,11 +41,12 @@ public class InvaderGameState{
       isShot1 = false;
       mainShooterKeyPresses();
       mainShooter.move();
+
       if(powActive){
-      if(powerUpStep + 40 < gameLoopCounter){
-        mainShooter.setPowerUp(0);
-        powActive = false;
-      }
+        if(powerUpStep + 40 < gameLoopCounter){
+            mainShooter.setPowerUp(0);
+            powActive = false;
+        }
       }
       if(twoPlayer){
         isShot2 = false;
@@ -54,6 +58,7 @@ public class InvaderGameState{
       updateMissileMovement();
       updateBackground();
       updatePowerUpMovement();
+      updateBunkers();
       checkWin();
       checkGameOver();
       
@@ -82,6 +87,7 @@ public class InvaderGameState{
     
     enemiesList = new ArrayList<Enemy>();
     missilesList = new ArrayList<Missile>();
+    bunkersList = new ArrayList<Bunker>();
     
     enemiesList.clear();
     missilesList.clear();
@@ -129,6 +135,7 @@ public class InvaderGameState{
         //main light enemies and top row of heavy enemies
         setupHeavyEnemyGrid(START_X_COORD_ENEMY, START_Y_COORD_ENEMY, 8, 1);
         setupLightEnemyGrid(START_X_COORD_ENEMY , START_Y_COORD_ENEMY - 80, 10, 3);
+        setupBunkerGrid(START_Y_COORD_BUNKER, 6);
         break;
       case 3:
         //half light and half heavy enemies
@@ -177,6 +184,44 @@ public class InvaderGameState{
     BossEnemy enemy = new BossEnemy(start_x_coord, start_y_coord, enemyXVelocity/2, 0);
     enemiesList.add(enemy);
   }
+
+    public void setupBunkerGrid(int startYCoord, int xNumberBunker) {
+        double gap = MAX_XCOORD*2 / (xNumberBunker); //1280 / 5
+        double xCoord = -MAX_XCOORD + gap/2;
+        //go to -640 + 256 + 256... until 640
+        for (int i = 0; i < xNumberBunker; i++) {
+            Bunker bunker = new Bunker(xCoord, startYCoord);
+            bunkersList.add(bunker);
+            xCoord = xCoord + gap;
+        }
+    }
+
+    public void updateBunkers(){
+      //enemy missiles go through bunkers
+        //bunkers destroy powerups
+        //shooter missiles remove a life from bunkers
+        for (int i = 0; i < bunkersList.size(); i++) {
+            Bunker currentBunker = bunkersList.get(i);
+
+            for (int j = 0; j < missilesList.size(); j++) {
+                Missile currentMissile = missilesList.get(j);
+
+                if (currentBunker.onMissileCollision(currentMissile) && !(currentMissile instanceof EnemyMissile)) {
+                    currentBunker.removeLife();
+                    if (currentBunker.getLives() == 0) {
+                        bunkersList.remove(i);
+                    }
+                    missilesList.remove(j);
+                    score = score + 2;
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < bunkersList.size(); i++) {
+            bunkersList.get(i).render();
+        }
+    }
   
   public void updateEnemyMovement(){
     //loop through enemiesList and update each enemies movement
@@ -191,14 +236,12 @@ public class InvaderGameState{
     }
     
     for (int i = 0; i < enemiesList.size(); i++) {
-      boolean isDestroy = false;
       Enemy currentEnemy = enemiesList.get(i);
       
       for (int j = 0; j < missilesList.size(); j++) {
         Missile currentMissile = missilesList.get(j);
         
         if (currentEnemy.onMissileCollision(currentMissile) && !(currentMissile instanceof EnemyMissile)) {
-          isDestroy = true;
           currentEnemy.removeLife();
           if(currentEnemy.getLives() == 0){
             enemiesList.remove(i);
@@ -212,21 +255,21 @@ public class InvaderGameState{
       if(enemiesList.size() > i){
         if(enemiesList.get(i) instanceof LightEnemy){
           LightEnemy lightEnemy = (LightEnemy) enemiesList.get(i);
-          lightEnemyMovement(lightEnemy, isDestroy, isEdge);
+          lightEnemyMovement(lightEnemy, isEdge);
         }
         if(enemiesList.get(i) instanceof HeavyEnemy){
           HeavyEnemy heavyEnemy = (HeavyEnemy) enemiesList.get(i);
-          heavyEnemyMovement(heavyEnemy, isDestroy, isEdge);
+          heavyEnemyMovement(heavyEnemy, isEdge);
         }
         if(enemiesList.get(i) instanceof BossEnemy){
           BossEnemy bossEnemy = (BossEnemy) enemiesList.get(i);
-          bossEnemyMovement(bossEnemy, isDestroy, isEdge);
+          bossEnemyMovement(bossEnemy,  isEdge);
         }
         
       }
     }
   }
-  public void lightEnemyMovement(LightEnemy lightEnemy, boolean isDestroy, boolean isEdge){
+  public void lightEnemyMovement(LightEnemy lightEnemy, boolean isEdge){
     
     if(isEdge){
       lightEnemy.moveY();
@@ -243,7 +286,7 @@ public class InvaderGameState{
     }
     
   }
-  public void heavyEnemyMovement(HeavyEnemy heavyEnemy, boolean isDestroy, boolean isEdge){
+  public void heavyEnemyMovement(HeavyEnemy heavyEnemy,  boolean isEdge){
     
     if(isEdge){
       heavyEnemy.moveY();
@@ -260,8 +303,7 @@ public class InvaderGameState{
     }
     
   }
-  public void bossEnemyMovement(BossEnemy bossEnemy, boolean isDestroy, boolean isEdge){
-    if (!isDestroy) {
+  public void bossEnemyMovement(BossEnemy bossEnemy,  boolean isEdge){
       if(isEdge){
         bossEnemy.moveY();
         bossEnemy.render();
@@ -275,7 +317,6 @@ public class InvaderGameState{
         missilesList.add(missile);
         //EnemyMissileNoise();
       }
-    }
   }
   
   public void updateMissileMovement(){
@@ -362,9 +403,10 @@ public class InvaderGameState{
     
     for(int i = 0 ; i < powersList.size() ; i ++){
       PowerUp currentPowerUp = powersList.get(i);
-      int space = 10;
-      double dis = Math.sqrt(Math.pow( (currentPowerUp.getXCoord() + currentPowerUp.getRadius()) - (mainShooter.getXCoord() + mainShooter.getRadius()) , 2) + Math.pow((currentPowerUp.getYCoord() + currentPowerUp.getRadius()) - (mainShooter.getYCoord() + mainShooter.getRadius()), 2));
-      if (dis <= (currentPowerUp.getRadius() + mainShooter.getRadius())){
+      double shooterRadius = mainShooter.getRadius();
+      double powerUpRadius = currentPowerUp.getRadius();
+      double disToShooter = Math.sqrt(Math.pow( (currentPowerUp.getXCoord()) - (mainShooter.getXCoord()) , 2) + Math.pow((currentPowerUp.getYCoord()) - (mainShooter.getYCoord()), 2));
+      if (disToShooter <= (powerUpRadius + shooterRadius)){
         mainShooter.setPowerUp(currentPowerUp.getPower());
         powersList.remove(i);
         powActive = false;
@@ -372,6 +414,17 @@ public class InvaderGameState{
         powersList.remove(i);
       } else{
         currentPowerUp.move();
+      }
+
+      //loop through all of the bunkers and see if the powerup collides with the bunker
+        for(int j=0; j<bunkersList.size(); j++){
+          Bunker currentBunker = bunkersList.get(j);
+          double bunkerRadius = currentBunker.getRadius();
+          double disToBunker = Math.sqrt(Math.pow( (currentPowerUp.getXCoord()) - (currentBunker.getXCoord()) , 2) + Math.pow((currentPowerUp.getYCoord()) - (currentBunker.getYCoord()), 2));
+            if (disToBunker <= (powerUpRadius + bunkerRadius)) {
+                currentBunker.removeLife();
+                powersList.remove(i);
+            }
       }
     }
   }
@@ -530,33 +583,6 @@ public class InvaderGameState{
     }
   }
 
-  /*private void ShooterMissileNoise() {
-    new Thread(
-            new Runnable() {
-              @Override
-              public void run() {
-                StdAudio.play("shooter_missile.wav");
-              }
-            }).start();
-  }
-  private void EnemyMissileNoise() {
-    new Thread(
-            new Runnable() {
-              @Override
-              public void run() {
-                StdAudio.play("enemy_missile.wav");
-              }
-            }).start();
-  }
-  private void DestroyNoise() {
-    new Thread(
-            new Runnable() {
-              @Override
-              public void run() {
-                StdAudio.play("destroy.wav");
-              }
-            }).start();
-  }*/
 
   public void additionalShooterKeyPresses (){
       if (StdDraw.isKeyPressed(VK_NUMPAD1)) {
@@ -586,5 +612,6 @@ public class InvaderGameState{
         missilesList.add(normalMissile);
       }
   }
+
 
 }
