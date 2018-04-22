@@ -15,19 +15,9 @@ public class DefaultCritter{
     }
 
     //setters
-    public void setXCoord(double xCoord){
-        this.xCoord = xCoord;
-    }
-    public void setYCoord(double yCoord){
-        this.yCoord = yCoord;
-    }
     public void setXVelocity(double xVelocity){
         this.xVelocity = xVelocity;
     }
-    public void setYVelocity(double yVelocity){
-        this.yVelocity = yVelocity;
-    }
-
     //getters
     public double getYCoord(){
         return yCoord;
