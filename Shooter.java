@@ -7,13 +7,15 @@ public class Shooter extends DefaultCritter{
     private double angleBarrel;
     private int lives;
     private int powerUp;
+    private boolean playerOne;
 
-    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity, int lives){
+    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity, int lives, boolean player){
         super(xCoord, yCoord, xVelocity, yVelocity, 10);
         angleBarrel = 90;
         xCoordBarrel = super.xCoord;
         yCoordBarrel = super.getRadius() + super.yCoord;
         this.lives = lives;
+        playerOne = player;
     }
 
     /* Setters */
@@ -66,7 +68,11 @@ public class Shooter extends DefaultCritter{
     public void render()
     {
         double scaledAngleBarrel = angleBarrel - 90;
-        StdDraw.picture(super.xCoord,super.yCoord,"PlayerBlue.png",super.radius*5,super.radius*5, scaledAngleBarrel);
+        if(playerOne){
+          StdDraw.picture(super.xCoord,super.yCoord,"PlayerBlue.png",super.radius*5,super.radius*5, scaledAngleBarrel);
+        }else{
+          StdDraw.picture(super.xCoord,super.yCoord,"PlayerGreen.png",super.radius*5,super.radius*5, scaledAngleBarrel);
+        }
     }
 
     public void resetState(int startXCoord, int startYCoord) {
@@ -77,3 +83,4 @@ public class Shooter extends DefaultCritter{
         yCoordBarrel = super.getRadius() + super.yCoord;
     }
 }
+
