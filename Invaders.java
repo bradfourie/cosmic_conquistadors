@@ -18,7 +18,7 @@ public class Invaders {
     
     InvaderGameState invaderGameState = new InvaderGameState();
     invaderGameState.initializeStartRound();
-    
+
     while( !StdDraw.isKeyPressed(VK_Q) ) {
       
       if (gameStart) {
@@ -29,13 +29,6 @@ public class Invaders {
       }
       
       if(!gameStart) {
-        /*new Thread(
-         new Runnable() {
-         @Override
-         public void run() {
-         StdAudio.loop("Background_CANCER.wav");
-         }
-         }).start();*/
         invaderGameState.gameLoop();
       }
       

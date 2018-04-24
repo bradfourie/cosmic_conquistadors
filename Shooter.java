@@ -6,21 +6,49 @@ public class Shooter extends DefaultCritter{
     private double angleBarrel;
     private int lives;
     private int powerUp;
-    private boolean playerOne;
+    private int powerUpCounter;
+    private boolean isPlayerOne;
 
-    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity, int lives, boolean player){
+    public Shooter(double xCoord, double yCoord, double xVelocity, double yVelocity, int lives, boolean isPlayerOne){
         super(xCoord, yCoord, xVelocity, yVelocity, 10);
-        angleBarrel = 90;
-        xCoordBarrel = super.xCoord;
-        yCoordBarrel = super.getRadius() + super.yCoord;
+        this.angleBarrel = 90;
+        this.xCoordBarrel = super.xCoord;
+        this.yCoordBarrel = super.getRadius() + super.yCoord;
         this.lives = lives;
-        playerOne = player;
+        this.powerUp = -1;
+        this.powerUpCounter = 0;
+        this.isPlayerOne = isPlayerOne;
     }
 
     /* Setters */
-    public void setRadialVelocityBarrel(double radialVelocityBarrel){ this.radialVelocityBarrel = radialVelocityBarrel; }
-    public void setPowerUp(int power){
-      powerUp = power;
+    public void setRadialVelocityBarrel(double radialVelocityBarrel){
+      this.radialVelocityBarrel = radialVelocityBarrel;
+    }
+    
+    public void setPowerUp(int powerUp){
+      this.powerUp = powerUp;
+      switch(powerUp){
+        case 0:
+          powerUpCounter = 10;
+          break;
+        case 1:
+          powerUpCounter = 3;
+          break;
+        case 2:
+          powerUpCounter = 1;
+          break;
+        case 3:
+          powerUpCounter = 5;
+          break;
+        case 4:
+          lives++;
+          powerUpCounter = 0;
+          break;
+      }
+    }
+    
+    public void decreasePowerUpCounter(){
+      this.powerUpCounter--;
     }
 
     /* Getters */
@@ -38,7 +66,10 @@ public class Shooter extends DefaultCritter{
         return lives;
     }
     public double getPower(){
-    return powerUp;  
+      return powerUp;  
+    }
+    public double getPowerUpCounter(){
+      return powerUpCounter;  
     }
     public void removeLife(){
         lives--;
@@ -67,7 +98,7 @@ public class Shooter extends DefaultCritter{
     public void render()
     {
         double scaledAngleBarrel = angleBarrel - 90;
-        if(playerOne){
+        if(isPlayerOne){
           StdDraw.picture(super.xCoord,super.yCoord,"PlayerBlue.png",super.radius*5,super.radius*5, scaledAngleBarrel);
         }else{
           StdDraw.picture(super.xCoord,super.yCoord,"PlayerGreen.png",super.radius*5,super.radius*5, scaledAngleBarrel);
@@ -75,6 +106,8 @@ public class Shooter extends DefaultCritter{
     }
 
     public void resetState(int startXCoord, int startYCoord) {
+        powerUp = -1;
+        powerUpCounter = 0;
         xCoord = startXCoord;
         yCoord = startYCoord;
         radialVelocityBarrel = 0;
