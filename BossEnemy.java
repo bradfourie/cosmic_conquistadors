@@ -1,3 +1,7 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
+
 public class BossEnemy extends Enemy {
     public BossEnemy(double xCoord, double yCoord, double xVelocity, double yVelocity){
         super(xCoord, yCoord, xVelocity, yVelocity, 40, 20);

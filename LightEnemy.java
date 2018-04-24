@@ -1,3 +1,7 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
+
 
 public class LightEnemy extends Enemy {
     public LightEnemy(double xCoord, double yCoord, double xVelocity, double yVelocity){
@@ -12,4 +16,5 @@ public class LightEnemy extends Enemy {
     }
 
 }
+
 

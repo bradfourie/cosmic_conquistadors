@@ -1,3 +1,7 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
+
 public class HeavyEnemy extends Enemy {
     public HeavyEnemy(double xCoord, double yCoord, double xVelocity, double yVelocity){
         super(xCoord, yCoord, xVelocity, yVelocity,20 , 5);
@@ -7,3 +11,4 @@ public class HeavyEnemy extends Enemy {
         StdDraw.picture(super.xCoord,super.yCoord,"EnemyYellow.png",super.radius*2,super.radius*2);
     }
 }
+

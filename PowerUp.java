@@ -1,8 +1,8 @@
-/**
- * Auto Generated Java Class.
- */
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
 public class PowerUp {
-  
+
   //instead of power 1 and 2 rather do this
   /*private final int GATLING_MISSILE = 0;
   private final int TRI_MISSILE = 1;*/

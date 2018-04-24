@@ -1,10 +1,14 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
+
 public class StarBackground {
 
     /* ADD YOUR CODE HERE */
     public double x;
     public double y;
     public double length;
-    public double velocity = 25;
+    public double velocity = 15;
 
     public StarBackground(int x, int y, double length){
         this.x = x;
