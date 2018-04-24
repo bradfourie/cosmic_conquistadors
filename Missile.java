@@ -1,3 +1,6 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
 public class Missile extends DefaultCritter{
     private int numBounced; //counts the number of bounces a missile has made
     protected double angle; //the angle that determines the direction the bullet is facing

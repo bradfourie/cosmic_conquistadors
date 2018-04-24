@@ -1,9 +1,11 @@
-import javafx.scene.effect.Light;
+package com.company;
+
+import edu.princeton.cs.introcs.StdAudio;
+import edu.princeton.cs.introcs.StdDraw;
 
 import java.util.ArrayList;
 
 import static java.awt.event.KeyEvent.*;
-
 public class InvaderGameState{
   
   private final int START_Y_COORD_SHOOTER = -300;
@@ -92,6 +94,7 @@ public class InvaderGameState{
     enemiesList.clear();
     missilesList.clear();
     powersList.clear();
+    bunkersList.clear();
     
     mainShooter = new Shooter(START_X_COORD_SHOOTER, START_Y_COORD_SHOOTER, 0, 0, 3, true);
     mainShooter.setPowerUp(0);
@@ -114,10 +117,12 @@ public class InvaderGameState{
     
     enemiesList = new ArrayList<Enemy>();
     missilesList = new ArrayList<Missile>();
+    bunkersList = new ArrayList<Bunker>();
     
     enemiesList.clear();
     missilesList.clear();
     powersList.clear();
+    bunkersList.clear();
     mainShooter.setPowerUp(0);
     initializeEnemies();
   }
@@ -149,6 +154,7 @@ public class InvaderGameState{
       case 5:
         //final boss fight
         setupBossEnemyGrid(START_X_COORD_ENEMY, START_Y_COORD_ENEMY);
+        setupBunkerGrid(START_Y_COORD_BUNKER, 8);
         break;
     }
     

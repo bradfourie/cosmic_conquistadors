@@ -1,4 +1,6 @@
+package com.company;
 
+import edu.princeton.cs.introcs.StdDraw;
 public class Shooter extends DefaultCritter{
 
     private double xCoordBarrel;

@@ -1,27 +1,25 @@
-import java.util.ArrayList;
-import java.awt.Font;
+package com.company;
+
+import edu.princeton.cs.introcs.StdAudio;
+import edu.princeton.cs.introcs.StdDraw;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
+import java.util.ArrayList;
+
 import static java.awt.event.KeyEvent.VK_Q;
 import static java.awt.event.KeyEvent.VK_SPACE;
-
 
 public class Invaders {
   
   
   public static void main(String[] args){
-    
-    /*StdDraw.setXscale(-100, +100);
-     StdDraw.setYscale(-100, +100);*/
     StdDraw.setCanvasSize(1280,720);
     StdDraw.setXscale(-640,640);
     StdDraw.setYscale(-360, 360);
     
     boolean gameStart = true;
-    boolean colour = true;
-    int colourCounter = 0;
     
     InvaderGameState invaderGameState = new InvaderGameState();
     invaderGameState.initializeStartRound();
@@ -29,15 +27,7 @@ public class Invaders {
     while( !StdDraw.isKeyPressed(VK_Q) ) {
       
       if (gameStart) {
-        renderMenu(colour);
-        colourCounter++;
-        if(colour&&colourCounter==12){
-          colourCounter=0;
-          colour=false;
-        }else if(!colour&&colourCounter==12){
-          colourCounter=0;
-          colour=true;
-        }
+        renderMenu();
         if (StdDraw.isKeyPressed(VK_SPACE)) {
           gameStart = false;
         }
@@ -57,7 +47,7 @@ public class Invaders {
       /*if the user won the round, show the end round screen and then reset the game loop in such a way as to progress
        *to the next round*/
       if(invaderGameState.isWin() && (invaderGameState.getRound() != 5)){
-        renderEndRound(invaderGameState.getScore(), invaderGameState.getRound());
+        renderEndRound( invaderGameState.getRound());
         invaderGameState.initializeNextRound();
       }
       
@@ -73,7 +63,7 @@ public class Invaders {
   }
   
   
-  public static void renderMenu(boolean colour){
+  public static void renderMenu(){
     try {
     //create the font to use. Specify the size!
     Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("operational amplifier.ttf")).deriveFont(45f);
@@ -89,42 +79,42 @@ public class Invaders {
     StdDraw.setPenColor(StdDraw.BLACK);
     StdDraw.filledRectangle(0,0,640,360);
     StdDraw.setPenColor(StdDraw.WHITE);
-    StdDraw.text(0,-90,"Quit(q), Screencap (p)");
-    StdDraw.text(0,-40,"Move: Left (z), Stop(x), Right(c)");
-    StdDraw.text(0,10,"Rotate: Left (a), Stop (s), Right(d)");
-    StdDraw.text(0,60,"Shoot (w)");
-    StdDraw.setPenColor(StdDraw.GREEN);
+    StdDraw.text(0,-40,"Quit(q), Screencap (p)");
+    StdDraw.text(0,10,"Move: Left (z), Stop(x), Right(c)");
+    StdDraw.text(0,60,"Rotate: Left (a), Stop (s), Right(d)");
+    StdDraw.text(0,110,"Shoot (w)");
+    StdDraw.text(0,160,"Press (Spacebar) to Save The World!");
     StdDraw.text(0,300,"COSMIC CONQUISTADORS");
-    if(colour){
-      StdDraw.setPenColor(StdDraw.BLUE);
-      StdDraw.rectangle(0,-12,250,105);
-      StdDraw.setPenColor(StdDraw.WHITE);
-      StdDraw.text(0,190,"Press (Spacebar) to Save The World!");
-    }else{
-      StdDraw.setPenColor(StdDraw.RED);
-      StdDraw.rectangle(0,-12,250,105);
-      StdDraw.setPenColor(StdDraw.YELLOW);
-      StdDraw.text(0,190,"Press (Spacebar) to Save The World!");
-    }
     StdDraw.show(30);
   }
   
   public static void renderEndGame(int score){
     for(int i = 0 ; i < 800; i ++){
-      StdDraw.picture(0,-50 + (i * 0.25),"GAMEOVER.png", 80 + i*0.3 , 80 + i*0.3);
+      StdDraw.picture(0,-30 + (i * 0.25),"GAMEOVER.png", 80 + i*0.3 , 80 + i*0.3);
       StdDraw.show();
       StdDraw.setPenColor(StdDraw.WHITE);
       if(i > 300){
-      StdDraw.text(0 , -90 , "YOUR SCORE: " + score);
+          StdDraw.text(0 , -70 , "YOUR SCORE: " + score);
+        }
       }
-    }
-    
+      ArrayList<Integer> listHighScore = HighScore.checkHighScore(score);
 
-StdDraw.pause(2000);
-StdDraw.clear();
-  }
+      StdDraw.text(0,-120,"HIGH SCORES:");
+      int plotY = -170;
+
+      for(int j=0; j<listHighScore.size(); j++){
+          String strScore = String.valueOf(listHighScore.get(j));
+          StdDraw.text(0,plotY,"" + strScore);
+          StdDraw.show();
+          plotY-=40;
+      }
+      StdDraw.show();
+      StdDraw.pause(2000);
+      StdDraw.clear();
+    }
+
   
-  public static void renderEndRound(int score, int round){
+  public static void renderEndRound( int round){
    StdDraw.clear(StdDraw.BLACK);
     StdDraw.setPenColor(StdDraw.WHITE); 
     StdDraw.text(0,0,"Get Ready For Round " + (round+1));

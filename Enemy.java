@@ -1,3 +1,6 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
 public class Enemy extends DefaultCritter {
     private int lives;
     private int shootProbability;
@@ -54,7 +57,7 @@ public class Enemy extends DefaultCritter {
     }
 
    public void moveY(){
-    super.yCoord = super.yCoord - 60; 
+    super.yCoord = super.yCoord - super.radius*2; 
     invertVelocity();
     moveX();
   }

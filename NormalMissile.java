@@ -1,3 +1,7 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
+
 
 public class NormalMissile extends Missile{
 
@@ -13,3 +17,4 @@ public class NormalMissile extends Missile{
     StdDraw.picture(super.xCoord,super.yCoord,"BulletYellow.png",super.radius*5,super.radius*2, super.angle);
   }
 }
+
