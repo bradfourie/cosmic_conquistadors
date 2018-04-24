@@ -1,3 +1,8 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
+
+
 public class NormalMissile extends Missile{
 
   public NormalMissile(Shooter shooter){

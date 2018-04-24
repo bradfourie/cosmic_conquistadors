@@ -1,3 +1,6 @@
+package com.company;
+
+import edu.princeton.cs.introcs.StdDraw;
 public class PowerUp {
 
   //instead of power 1 and 2 rather do this
