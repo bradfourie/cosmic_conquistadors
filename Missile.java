@@ -7,6 +7,7 @@ public class Missile extends DefaultCritter{
         //and the magical constant 1.5 is the radius of the missile
         super(xCoord, yCoord, xVelocity, yVelocity, radius);
         this.numBounced = 0;
+        this.angle = Math.atan((yVelocity/xVelocity));
     }
 
     public int getNumBounced(){
