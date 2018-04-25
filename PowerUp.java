@@ -53,19 +53,19 @@ public class PowerUp {
     y = y - velocity;
     switch(this.power){
       case GATLING_MISSILE: 
-            StdDraw.setPenColor(StdDraw.GREEN);
+            StdDraw.setPenColor(StdDraw.BLUE);
             break;
       case TRI_MISSILE: 
-            StdDraw.setPenColor(StdDraw.PINK);
+            StdDraw.setPenColor(StdDraw.CYAN);
             break;
       case SUPER_MISSILE: 
             StdDraw.setPenColor(StdDraw.YELLOW);
             break;
       case FAST_MISSILE: 
-            StdDraw.setPenColor(StdDraw.ORANGE);
+            StdDraw.setPenColor(StdDraw.MAGENTA);
             break;
       case EXTRA_LIFE: 
-            StdDraw.setPenColor(StdDraw.BLUE);
+            StdDraw.setPenColor(StdDraw.GREEN);
             break;
     }
     StdDraw.filledCircle(x , y , length);
