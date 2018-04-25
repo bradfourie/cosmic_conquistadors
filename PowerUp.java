@@ -1,7 +1,7 @@
 
 public class PowerUp {
 
-  private final int GATLING_MISSILE =0, TRI_MISSILE = 1, SUPER_MISSILE = 2, FAST_MISSILE = 3, EXTRA_LIFE = 4;
+  private final int NORMAL_MISSILE =-1, GATLING_MISSILE =0, TRI_MISSILE = 1, SUPER_MISSILE = 2, FAST_MISSILE = 3, EXTRA_LIFE = 4;
   
   private double x;
   private double y;

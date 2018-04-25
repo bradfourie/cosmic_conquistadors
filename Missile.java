@@ -34,7 +34,7 @@ public class Missile extends DefaultCritter{
 
 
     public void move(){
-      StdDraw.setPenColor(StdDraw.YELLOW);
+        StdDraw.setPenColor(StdDraw.YELLOW);
         super.xCoord = super.xCoord + super.xVelocity;
         super.yCoord = super.yCoord + super.yVelocity;
     }

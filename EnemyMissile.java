@@ -1,11 +1,21 @@
 public class EnemyMissile extends Missile {
 
     public EnemyMissile(Enemy enemy){
-        super(enemy.getXCoord(), enemy.getYCoord(), 0, -15, 3);
+        super(enemy.getXCoord(), enemy.getYCoord(), 0, 0, 3);
         super.yVelocity = -15;
     }
+
     public EnemyMissile(Enemy enemy, double angleOffset , Shooter shooter){
-      super(enemy.getXCoord(), enemy.getYCoord(), 15 * Math.cos(Math.atan((shooter.getYCoord()  - enemy.getYCoord())/(shooter.getXCoord() - enemy.getXCoord())) + (angleOffset)*Math.PI/180), 15 * Math.sin(Math.atan((shooter.getYCoord()  - enemy.getYCoord())/(shooter.getXCoord() - enemy.getXCoord())) + (angleOffset)*Math.PI/180), 3);
+        super(enemy.getXCoord(), enemy.getYCoord(), 0, 0, 3);
+    
+        if(enemy.getXCoord() >= shooter.getXCoord()){
+          super.xVelocity = -15 * Math.cos(Math.atan((  shooter.getYCoord()  - enemy.getYCoord() )/(shooter.getXCoord() - enemy.getXCoord())) + (angleOffset)*Math.PI/180);
+          super.yVelocity = -15 * Math.sin(Math.atan((shooter.getYCoord()  - enemy.getYCoord())/(shooter.getXCoord() - enemy.getXCoord())) + (angleOffset)*Math.PI/180);
+        }else{
+          super.xVelocity = 15 * Math.cos(Math.atan((  shooter.getYCoord()  - enemy.getYCoord() )/(shooter.getXCoord() - enemy.getXCoord())) + (angleOffset)*Math.PI/180);
+          super.yVelocity = 15 * Math.sin(Math.atan((shooter.getYCoord()  - enemy.getYCoord())/(shooter.getXCoord() - enemy.getXCoord())) + (angleOffset)*Math.PI/180);
+        }
+          
     }
 
     public boolean isShooterCollision(Shooter shooter){
@@ -19,10 +29,10 @@ public class EnemyMissile extends Missile {
             return false;
         }
     }
-    
 
     public void render(){
         StdDraw.setPenColor(StdDraw.RED);
         StdDraw.filledCircle(super.xCoord,super.yCoord,super.radius);
     }
+    
 }

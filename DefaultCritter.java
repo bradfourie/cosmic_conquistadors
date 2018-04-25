@@ -28,4 +28,5 @@ public class DefaultCritter implements Critter {
     public double getRadius(){
         return radius;
     }
+    
 }

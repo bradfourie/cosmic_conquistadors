@@ -10,7 +10,6 @@ public class StarBackground {
         this.x = x;
         this.y = y;
         this.length = length;
-
     }
 
     public double getTailYCoord(){
@@ -21,7 +20,6 @@ public class StarBackground {
         y = y - velocity;
         StdDraw.setPenColor(StdDraw.WHITE);
         StdDraw.filledSquare(x , y , length);
-
     }
 
 }

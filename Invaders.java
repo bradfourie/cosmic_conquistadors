@@ -8,7 +8,6 @@ import static java.awt.event.KeyEvent.VK_SPACE;
 
 public class Invaders {
   
-  
   public static void main(String[] args){
     StdDraw.setCanvasSize(1280,720);
     StdDraw.setXscale(-640,640);
@@ -77,7 +76,7 @@ public class Invaders {
     StdDraw.setPenColor(StdDraw.BLACK);
     StdDraw.filledRectangle(0,0,640,360);
     StdDraw.setPenColor(StdDraw.WHITE);
-    StdDraw.text(0,-90,"Quit(q)");
+    StdDraw.text(0,-90,"Quit(q), Multiplayer(p)");
     StdDraw.text(0,-40,"Move: Left (z), Stop(x), Right(c)");
     StdDraw.text(0,10,"Rotate: Left (a), Stop (s), Right(d)");
     StdDraw.text(0,60,"Shoot (w)");
@@ -120,11 +119,10 @@ public class Invaders {
       StdDraw.show();
       StdDraw.pause(2000);
       StdDraw.clear();
-    }
+  }
 
-  
   public static void renderEndRound( int round){
-   StdDraw.clear(StdDraw.BLACK);
+    StdDraw.clear(StdDraw.BLACK);
     StdDraw.setPenColor(StdDraw.WHITE); 
     StdDraw.text(0,0,"Get Ready For Round " + (round+1));
     

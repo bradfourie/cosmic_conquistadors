@@ -2,9 +2,10 @@ public class Enemy extends DefaultCritter {
     private int lives;
     private int shootProbability;
 
-    public Enemy(double xCoord, double yCoord, double xVelocity, double yVelocity, double radius,int lives){
+    public Enemy(double xCoord, double yCoord, double xVelocity, double yVelocity, double radius,int lives, int shootProbability){
         super(xCoord, yCoord, xVelocity, yVelocity, radius); // final param radius
         this.lives = lives;
+        this.shootProbability = shootProbability;
     }
 
     public boolean onMissileCollision(Missile missile){
@@ -41,7 +42,6 @@ public class Enemy extends DefaultCritter {
 
 
     public boolean isShoot(){
-        //shootProbability = 1500;
         boolean isShoot = false;
         int trigger = (int) (Math.random() * shootProbability) + 1;
 
@@ -53,20 +53,21 @@ public class Enemy extends DefaultCritter {
     }
 
    public void moveY(){
-    super.yCoord = super.yCoord - 5; 
-    invertVelocity();
-    moveX();
-  }
+        super.yCoord = super.yCoord + super.yVelocity; 
+        invertVelocity();
+        moveX();
+    }
   
-  private void invertVelocity(){
-    super.xVelocity = -super.xVelocity;  
-  }
+    private void invertVelocity(){
+        super.xVelocity = -super.xVelocity;  
+    }
   
-  public double getXCoord(){
-    return super.xCoord;  
-  }
+    public double getXCoord(){
+        return super.xCoord;  
+    }
     
     public void moveX(){
         super.xCoord = super.xCoord + super.xVelocity;
     }
+
 }
