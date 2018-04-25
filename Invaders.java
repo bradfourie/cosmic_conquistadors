@@ -77,7 +77,7 @@ public class Invaders {
     StdDraw.setPenColor(StdDraw.BLACK);
     StdDraw.filledRectangle(0,0,640,360);
     StdDraw.setPenColor(StdDraw.WHITE);
-    StdDraw.text(0,-90,"Quit(q), Screencap (p)");
+    StdDraw.text(0,-90,"Quit(q)");
     StdDraw.text(0,-40,"Move: Left (z), Stop(x), Right(c)");
     StdDraw.text(0,10,"Rotate: Left (a), Stop (s), Right(d)");
     StdDraw.text(0,60,"Shoot (w)");
