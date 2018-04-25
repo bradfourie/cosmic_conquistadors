@@ -68,7 +68,7 @@ public class InvaderGameState{
     gameLoopCounter = 0;
     coolDown1 = 0;
     coolDown2 = 0;
-    round = 5;
+    round = 1;
     score = 0;
     gameOver = false;
     win = false;
