@@ -16,7 +16,6 @@ public class Enemy extends DefaultCritter {
         }else{
             return false;
         }
-
     }
 
     public boolean isShooterCollision(Shooter shooter){
@@ -30,8 +29,8 @@ public class Enemy extends DefaultCritter {
         }
     }
 
-    public void removeLife(){
-        lives--;
+    public void removeLives(int lives){
+        this.lives = this.lives - lives;
     }
     public int getLives(){
         return lives;
@@ -42,7 +41,7 @@ public class Enemy extends DefaultCritter {
 
 
     public boolean isShoot(){
-        shootProbability = 1500;
+        //shootProbability = 1500;
         boolean isShoot = false;
         int trigger = (int) (Math.random() * shootProbability) + 1;
 
@@ -54,7 +53,7 @@ public class Enemy extends DefaultCritter {
     }
 
    public void moveY(){
-    super.yCoord = super.yCoord - 60; 
+    super.yCoord = super.yCoord - super.radius*2; 
     invertVelocity();
     moveX();
   }

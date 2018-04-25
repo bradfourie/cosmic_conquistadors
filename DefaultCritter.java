@@ -1,4 +1,4 @@
-public class DefaultCritter{
+public class DefaultCritter implements Critter {
 
     protected double xCoord;
     protected double yCoord;
@@ -13,12 +13,12 @@ public class DefaultCritter{
         this.yVelocity = yVelocity;
         this.radius = radius;
     }
-
-    //setters
     public void setXVelocity(double xVelocity){
         this.xVelocity = xVelocity;
     }
-    //getters
+    public void setYVelocity(double yVelocity){
+        this.yVelocity = yVelocity;
+    }
     public double getYCoord(){
         return yCoord;
     }

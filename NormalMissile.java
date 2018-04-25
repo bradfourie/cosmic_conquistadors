@@ -1,4 +1,3 @@
-
 public class NormalMissile extends Missile{
 
   public NormalMissile(Shooter shooter){
@@ -13,3 +12,4 @@ public class NormalMissile extends Missile{
     StdDraw.picture(super.xCoord,super.yCoord,"BulletYellow.png",super.radius*5,super.radius*2, super.angle);
   }
 }
+

@@ -1,11 +1,8 @@
-/**
- * Auto Generated Java Class.
- */
+
 public class PowerUp {
+
+  private final int GATLING_MISSILE =0, TRI_MISSILE = 1, SUPER_MISSILE = 2, FAST_MISSILE = 3, EXTRA_LIFE = 4;
   
-  //instead of power 1 and 2 rather do this
-  /*private final int GATLING_MISSILE = 0;
-  private final int TRI_MISSILE = 1;*/
   private double x;
   private double y;
   private double length;
@@ -17,10 +14,24 @@ public class PowerUp {
     this.y = y;
     this.length = length;
     this.velocity = 8;
-    if(Math.random() < 0.3){
-      this.power = 1;
-    }else{
-      this.power = 2;
+    double selection = Math.random();
+    choosePowerUp(selection);
+  }
+  private void choosePowerUp(double selection){
+    if(selection < 0.05){
+      this.power = GATLING_MISSILE; //5%
+    }
+    if(selection >= 0.05 && selection < 0.35){
+      this.power = TRI_MISSILE; // 30%
+    }
+    if(selection >= 0.35 && selection < 0.65){
+      this.power = SUPER_MISSILE; //30%
+    }
+    if(selection >= 0.65 && selection < 0.98){
+      this.power = FAST_MISSILE; // 33%
+    }
+    if(selection >= 0.98 && selection < 1){
+      this.power = EXTRA_LIFE; // 2%
     }
   }
   
@@ -40,13 +51,23 @@ public class PowerUp {
   
   public void move(){
     y = y - velocity;
-    if(power == 1){
-      StdDraw.setPenColor(StdDraw.GREEN);
-    }else{
-      StdDraw.setPenColor(StdDraw.PINK);
+    switch(this.power){
+      case GATLING_MISSILE: 
+            StdDraw.setPenColor(StdDraw.GREEN);
+            break;
+      case TRI_MISSILE: 
+            StdDraw.setPenColor(StdDraw.PINK);
+            break;
+      case SUPER_MISSILE: 
+            StdDraw.setPenColor(StdDraw.YELLOW);
+            break;
+      case FAST_MISSILE: 
+            StdDraw.setPenColor(StdDraw.ORANGE);
+            break;
+      case EXTRA_LIFE: 
+            StdDraw.setPenColor(StdDraw.BLUE);
+            break;
     }
     StdDraw.filledCircle(x , y , length);
-    
   }
-  
 }
