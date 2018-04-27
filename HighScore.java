@@ -41,6 +41,7 @@ public class HighScore {
                 }
             }
             bufferedWriter.close();
+            fileWriter.close();
 
         }catch (IOException ioe){
             //This exception occurs if we try to write to a textfile that doesnt exist, however
@@ -77,6 +78,7 @@ public class HighScore {
                 line = bufferedReader.readLine();
             }
             bufferedReader.close();
+            fileReader.close();
 
         } catch (IOException e) {
             // This exception occurs if we try to read from a textfile that doesnt exist, however
