@@ -58,7 +58,6 @@ public class HighScore {
      * the line from type String to type Integer and add the Integer to the ArrayList, and then
      * return the ArrayList of high scores.
      *
-     * @param
      * @return an ArrayList of Integers that have been read from the textfile that stores
      * the high scores.
      */
