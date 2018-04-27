@@ -14,7 +14,7 @@ public class HeavyEnemy extends Enemy {
     /**
      * Class constructor that creates a heavy enemy at the specified coordinates, heavy enemies have 
      * default properties of x-velocities with a magnitude of 5, y-velocities with the magnitude of 50 downwards,
-     * 5 lives and a shootProbability with a range of 5.
+     * 5 lives and a shootProbability with a range of 1500.
      * 
      * @param xCoord the x-coordinate of the heavy enemy
      * @param yCoord the y-coordinate of the heavy enemy
