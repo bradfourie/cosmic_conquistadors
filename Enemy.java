@@ -1,5 +1,5 @@
 /**
- *  This class extends DefaultCritter and serves as a template to create
+ *  This class extends DefaultCritter and serves as a model object to create
  *  different types of enemies
  *
  *  @author Bradley Fourie
