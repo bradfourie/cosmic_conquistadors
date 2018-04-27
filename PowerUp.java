@@ -1,22 +1,23 @@
+
 /**
- * A model object for a powerup with properties for coordinates, radius, velocity and the type of powerup
+ * A class that extends DefaultCritter and serves as a model object
+ * for a powerup with different effects on the shooter depending on its type.
+ * 
+ * @see DefaultCritter
+ * @see Shooter
  */
 
-public class PowerUp {
+public class PowerUp extends DefaultCritter{
   /**
    * Constant values that correspond to the type of powerup
    */
   private final int NORMAL_MISSILE = -1, GATLING_MISSILE = 0, TRI_MISSILE = 1, SUPER_MISSILE = 2, FAST_MISSILE = 3, EXTRA_LIFE = 4;
 
-  private double xCoord;
-  private double yCoord;
-  private double radius;
-  private double yVelocity;
   private int power;
 
   /**
-   * Class constructor that creates a powerup at the specified coordinates, powerups have default 
-   * y velocities with a magnitude of 8, the constructor generates a random number and assigns a type 
+   * Class constructor that creates a powerup at the specified coordinates, powerups have default
+   * y velocities with a magnitude of 8, the constructor generates a random number and assigns a type
    * to the powerup using the method choosePowerUp.
    *
    * @param xCoord the starting x-coordinate of the powerup
@@ -24,18 +25,15 @@ public class PowerUp {
    * @param radius the radius of the powerup
    */
   public PowerUp(int xCoord, int yCoord, double radius){
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
-    this.radius = radius;
-    this.yVelocity = 8;
+    super(xCoord,yCoord, 0, -8, radius);
     double selection = Math.random();
     choosePowerUp(selection);
   }
-  
+
   /**
    * A method that recieves a variable selection as its input and assigns a type to
    * the powerup according to the interval in which selection lies.
-   * 
+   *
    * @param selection the randomly generated number which is used to assign a type
    *                  to the powerup
    */
@@ -71,11 +69,11 @@ public class PowerUp {
   }
 
   /**
-   * Moves the powerup downwards on the canvas according to its yVelocity, and sets it colour 
+   * Moves the powerup downwards on the canvas according to its yVelocity, and sets it colour
    * according to the type of the powerup.
    */
   public void move(){
-    yCoord = yCoord - yVelocity;
+    yCoord = yCoord + yVelocity;
     switch(this.power) {
       case GATLING_MISSILE:
         StdDraw.setPenColor(StdDraw.BLUE);
@@ -95,7 +93,7 @@ public class PowerUp {
     }
     render();
   }
-  
+
   public void render(){
     StdDraw.filledCircle(xCoord, yCoord, radius);
   }
