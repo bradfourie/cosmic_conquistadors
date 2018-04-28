@@ -52,7 +52,7 @@ public class Invaders {
        *invader gamestate in such a way as to set the game loop to its initial condition */
       if( (invaderGameState.isGameOver() && !gameStart) || (invaderGameState.isWin() && (invaderGameState.getRound() == 5)) ){
         gameStart = true;
-        renderEndGame(invaderGameState.getScore());
+        renderEndGame(invaderGameState.getScore(),invaderGameState.isWin());
         invaderGameState.initializeStartRound();
       }
     }
@@ -96,7 +96,8 @@ public class Invaders {
     StdDraw.show(30);
   }
   
-  public static void renderEndGame(int score){
+  public static void renderEndGame(int score, boolean isWin){
+    if(!isWin){
     for(int i = 0 ; i < 800; i ++){
       StdDraw.picture(0,-30 + (i * 0.25),"GAMEOVER.png", 80 + i*0.3 , 80 + i*0.3);
       StdDraw.show();
@@ -105,6 +106,16 @@ public class Invaders {
           StdDraw.text(0 , -70 , "YOUR SCORE: " + score);
         }
       }
+    }else{
+      for(int i = 0 ; i < 800; i ++){
+      StdDraw.picture(0,-30 + (i * 0.25),"CONGRATULATIONS.png", 140 + i*0.6 , 60 + i*0.2);
+      StdDraw.show();
+      StdDraw.setPenColor(StdDraw.WHITE);
+      if(i > 300){
+          StdDraw.text(0 , -70 , "YOUR SCORE: " + score);
+        }
+      }
+    }
       ArrayList<Integer> listHighScore = HighScore.checkHighScore(score);
 
       StdDraw.text(0,-120,"HIGH SCORES:");

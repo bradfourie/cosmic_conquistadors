@@ -1,8 +1,36 @@
-import java.util.ArrayList;
+/**
+ * This class is where the main game loop is run and controlled from.
+ * 
+ * @author Daniel Banks
+ * @author Bradley Fourie
+ * @author Heinrich Benz
+ * @see Enemy
+ * @see LightEenemy
+ * @see HeavyEnemy
+ * @see BossEnemy
+ * @see Missile
+ * @see NormalMissile
+ * @see SuperMissile
+ * @see FastMissile
+ * @see EnemyMissile
+ * @see Shooter
+ * @see PowerUp
+ * @see StarBackground
+ * @see Bunker
+ * @see HighScore
+ */
 
+import java.util.ArrayList;
 import static java.awt.event.KeyEvent.*;
+
 public class InvaderGameState{
-  
+  /**
+   * Class constructor that creates an object of the InvaderGameState class.
+   * 
+   * Constants that specify the starting coordinates of the shooter, boss, bunkers and enemies
+   * Constants that specify the velocities of the shooter and its barrel
+   * Constants that represent the different powerups available in the game
+   */
   private final int START_Y_COORD_SHOOTER = -300;
   private final int START_X_COORD_SHOOTER = 0;
   private final int START_Y_COORD_ENEMY = 300;
@@ -15,7 +43,26 @@ public class InvaderGameState{
   private final int SHOOTER_VELOCITY = 8;
   private final int SHOOTER_RADIAL_VELOCITY = 3;
   private final int NORMAL_MISSILE =-1, GATLING_MISSILE =0, TRI_MISSILE = 1, SUPER_MISSILE = 2, FAST_MISSILE = 3, EXTRA_LIFE = 4;
-  
+  /**
+   * @param gameLoopCounter keeps track of the particular instance in the game
+   * @param score represents the current score of the player
+   * @param round represents which round/level the player is currently on
+   * @param coolDown1 the gameLoopCounter number when the last bullet was shot for main player
+   * @param coolDown2 the gameLoopCounter number when the last bullet was shot for additional player
+   * @param gameOver if the game is over or not
+   * @param win represents if the player won the game or not
+   * @param isShot1 represents if the main player pressed the shoot button and a new missile must be created
+   * @param isShot2 represents if the additional player pressed the shoot button and a new missile must be created
+   * @param isTwoPlayer represents if the game is currently 2 player or not
+   * @see Shooter
+   * @see StarBackground
+   * @see PowerUp
+   * @param enemiesList array list containing all enemy objects on the screen
+   * @param missilesList array list containing all missile objects on the screen
+   * @param bunkersList array list containg all bunker objects on the screen
+   * @param starsList array list containg all the Starbackground objects on the screen
+   * @param powersList array list containing all PowerUp objects on the screen
+   */
   private int gameLoopCounter, score, round, coolDown1, coolDown2;
   private boolean gameOver, win, isShot1, isShot2, isTwoPlayer;
   
@@ -29,6 +76,11 @@ public class InvaderGameState{
   private ArrayList<StarBackground> starsList = new ArrayList<StarBackground>();
   private ArrayList<PowerUp> powersList = new ArrayList<PowerUp>();
   
+  /**
+   * Runs the main game and calls all necessary methods for movement and updating
+   * of game screen.
+   * Clear screen every refresh and display new objects.
+   */
   public void gameLoop(){
     
     while (!gameOver && !win) {
@@ -63,12 +115,20 @@ public class InvaderGameState{
     }
   }
   
-
+/**
+ * Initilaizes all necessary classes and sets all global variables to
+ * necessary values for the starting round of the game.
+ * 
+ * Clear enemiesList, missilesList, powersList, bunkersList.
+ * Initializes main player and level 1 enemies
+ * 
+ * @see Shooter
+ */
   public void initializeStartRound() {
     gameLoopCounter = 0;
     coolDown1 = 0;
     coolDown2 = 0;
-    round = 1;
+    round = 5;
     score = 0;
     gameOver = false;
     win = false;
@@ -83,6 +143,16 @@ public class InvaderGameState{
     initializeEnemies();
   }
 
+  /**
+   * Initilaizes all necessary classes and sets all global variables to
+   * necessary values for the next round of the game.
+   * 
+   * Moves main and additional players back to the middle
+   * Clear enemiesList, missilesList, powersList, bunkersList.
+   * Initializes main player and level 1 enemies
+   * 
+   * @see Shooter
+   */
   public void initializeNextRound(){
     gameLoopCounter = 0;
     round++;
@@ -102,6 +172,15 @@ public class InvaderGameState{
     initializeEnemies();
   }
   
+  /**
+   * Initializes grids of enemies depending on the current round of the 
+   * player.
+   * 
+   * Calls setupLisghtEnemyGrid, setupHeavyEnemyGrid,
+   * setupBossEnemyGrid, setupBunkerGrid methods, to setup grids of
+   * different enemy types.
+   * Uses global variable round to decide enemies to initialize.
+   */
   private void initializeEnemies(){
     switch (round){
       case 1:
@@ -133,6 +212,15 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Creates grid of the LightEnemy class, and populates array list with the
+   * LightEnemy objects.
+   * 
+   * @param startXcoord the starting x-coordinate of the first light enemy
+   * @param startYcoord the starting y-coordinate od the first light enemy
+   * @param xNumberEnemy amount of columns of enemies that must be created
+   * @param yNumberEnemy amount of rows of enemies that must be created
+   */
   private void setupLightEnemyGrid(int startXcoord, int startYcoord, int xNumberEnemy, int yNumberEnemy){
     int enemyRadius = 18;
     int gap = 18;
@@ -144,6 +232,16 @@ public class InvaderGameState{
       }
     }
   }
+  
+  /**
+   * Creates grid of the HeavyEnemy class, and populates array list with the
+   * HeavyEnemy objects.
+   * 
+   * @param start_X_coord the starting x-coordinate of the first heavy enemy
+   * @param start_Y_coord the starting y-coordinate od the first heavy enemy
+   * @param xNumberEnemy amount of columns of enemies that must be created
+   * @param yNumberEnemy amount of rows of enemies that must be created
+   */
   private void setupHeavyEnemyGrid(int start_x_coord, int start_y_coord, int xNumberEnemy, int yNumberEnemy){
     int enemyRadius = 20;
     int gap = 20;
@@ -158,6 +256,12 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Creates the boss enemy which the player(s) will fight in the final round.
+   * 
+   * @param start_x_coord the starting x-coordinate of the boss enemy
+   * @param start_y_coord the starting y-coordinate od the boss enemy
+   */
   private void setupBossEnemyGrid(int start_x_coord, int start_y_coord){
     start_x_coord = start_x_coord + 50;
     start_y_coord = start_y_coord - 50;
@@ -165,6 +269,12 @@ public class InvaderGameState{
     enemiesList.add(enemy);
   }
 
+  /**
+   * Creates a line of a certain number of bunkers equal distances apart.
+   * 
+   * @param startYCoord the y-coordinate of the bunkers
+   * @param xNumberBunker the amount of bunkers we want in the round
+   */
   private void setupBunkerGrid(int startYCoord, int xNumberBunker) {
     double gap = MAX_X_COORD*2 / (xNumberBunker); 
     double xCoord = -MAX_X_COORD + gap/2;
@@ -174,7 +284,16 @@ public class InvaderGameState{
       xCoord = xCoord + gap;
     }
   }
-
+ 
+  /**
+   * All bunkers have 5 lives, it allows all enemy missiles through however
+   * deletes powerups and player missiles trying to pass through, instead a
+   * life is taken off of the bunker until it reaches 0 then it is destroyed.
+   * For every life removed from a bunker the player gains 10 points to their 
+   * score.
+   * If an enemy touches a bunker the bunker gets destroyed without damaging
+   * enemy.
+   */
   private void updateBunkers(){
     for (int i = 0; i < bunkersList.size(); i++) {
       Bunker currentBunker = bunkersList.get(i);
@@ -225,6 +344,15 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Loop through the enemiesList and update the x & y coordinates of each
+   * enemy according to a constant velocity.
+   * Detects if an enemy is on the edge of the screen.
+   * Detects for collisions with player missiles to either remove a life
+   * from enemy object it is in contatc with or destroy it (remove from
+   * array list).
+   * Play a wav file if an enemy is removed from the array list.
+   */
   private void updateEnemyMovement(){
     //loop through enemiesList and update each enemies movement
     boolean isEdge = false;
@@ -283,6 +411,16 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Moves and renders a single object of the LightEnemy class 
+   * If the enemy touches the edges it moves down.
+   * Randomly decides if this enemy is going to shoot a missile
+   * and adds missile to missile array list.
+   * Play a wav file if an enemy shoots a missile.
+   * 
+   * @param lightEnemy object of the LightEnemy class that needs to be moved
+   * @param isEdge boolean stating if the current enemy is on the edge or not
+   */
   private void lightEnemyMovement(LightEnemy lightEnemy, boolean isEdge){
     if(isEdge){
       lightEnemy.moveY();
@@ -299,6 +437,16 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Moves and renders a single object of the HeavyEnemy class 
+   * If the enemy touches the edges it moves down.
+   * Randomly decides if this enemy is going to shoot a missile
+   * and adds missile to missile array list.
+   * Play a wav file if an enemy shoots a missile.
+   * 
+   * @param heavyEnemy object of the HeavyEnemy class that needs to be moved
+   * @param isEdge boolean stating if the current enemy is on the edge or not
+   */
   private void heavyEnemyMovement(HeavyEnemy heavyEnemy,  boolean isEdge){
     if(isEdge){
       heavyEnemy.moveY();
@@ -314,6 +462,18 @@ public class InvaderGameState{
       StdAudio.play("enemy_missile.wav");
     }
   }
+  
+  /**
+   * Moves and renders a single object of the BossEnemy class 
+   * If the enemy touches the edges it moves down.
+   * Randomly decides if this enemy is going to shoot a triple missile
+   * and adds all 3 missiles to missile array list, if there are 2 players
+   * the boss will sometimes shoot at both players.
+   * Play a wav file if an enemy shoots a missile.
+   * 
+   * @param bossEnemy object of the BossEnemy class that needs to be moved
+   * @param isEdge boolean stating if the current enemy is on the edge or not
+   */
   private void bossEnemyMovement(BossEnemy bossEnemy,  boolean isEdge){
     int randomWalkTrigger = 200;
     if(gameLoopCounter % randomWalkTrigger == 0){
@@ -353,6 +513,10 @@ public class InvaderGameState{
     missilesList.add(missile3);
   }
 
+  /**
+   * Loops through missilesList array list and moves each missile
+   * individually according to what type of missile it is.
+   */
   private void updateMissileMovement(){
     //loop through missilesList and update each missiles movement
     for (int i = 0; i < missilesList.size(); i++) {
@@ -387,6 +551,15 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Moves and renders one object of the EnemyMissile class.
+   * Bounces the missile if it hasnt bounced before yet.
+   * Deletes object from missile array list if it has bounced twice or is
+   * at the top of the screen.
+   * 
+   * @param enemyMissile object of the EnemyMissile class that needs to be updated
+   * @param position the location of current enemyMissile in missilesList array list
+   */
   private void enemyMissileMovement(EnemyMissile enemyMissile, int position){
     if (Math.abs(enemyMissile.getXCoord() + enemyMissile.getRadius()) + enemyMissile.getRadius() > MAX_X_COORD) {
       enemyMissile.wallBounce();
@@ -398,6 +571,16 @@ public class InvaderGameState{
       enemyMissile.render();
     }
   }
+  
+  /**
+   * Moves and renders one object of the normalMissile class.
+   * Bounces the missile if it hasnt bounced before yet.
+   * Deletes object from missile array list if it has bounced twice or is
+   * at the top of the screen.
+   * 
+   * @param normalMissile object of the NormalMissile class that needs to be updated
+   * @param position the location of current normalMissile in missilesList array list
+   */
   private void normalMissileMovement(NormalMissile normalMissile, int position){
     if (Math.abs(normalMissile.getXCoord() + normalMissile.getRadius()) + normalMissile.getRadius() > MAX_X_COORD) {
       normalMissile.wallBounce();
@@ -410,6 +593,15 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Moves and renders one object of the SuperMissile class.
+   * Bounces the missile if it hasnt bounced before yet.
+   * Deletes object from missile array list if it has bounced twice or is
+   * at the top of the screen.
+   * 
+   * @param superMissile object of the SuperMissile class that needs to be updated
+   * @param position the location of current superMissile in missilesList array list
+   */
   private void superMissileMovement(SuperMissile superMissile, int position){
     if ( Math.abs( superMissile.getXCoord() + superMissile.getRadius() ) + superMissile.getRadius() > MAX_X_COORD ) {
       superMissile.wallBounce();
@@ -422,6 +614,15 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Moves and renders one object of the FastMissile class.
+   * Bounces the missile if it hasnt bounced before yet.
+   * Deletes object from missile array list if it has bounced twice or is
+   * at the top of the screen.
+   * 
+   * @param fastMissile object of the FastMissile class that needs to be updated
+   * @param position the location of current fastMissile in missilesList array list
+   */
   private void fastMissileMovement(FastMissile fastMissile, int position){
     if ( Math.abs( fastMissile.getXCoord() + fastMissile.getRadius() ) + fastMissile.getRadius() > MAX_X_COORD ) {
       fastMissile.wallBounce();
@@ -433,7 +634,14 @@ public class InvaderGameState{
       fastMissile.render();
     }
   }
-  
+  /**
+   * Creates, moves and renders the background stars.
+   * Adds stars to array list from the top of the screen.
+   * Deletes and stars that are at the bottom of the screen
+   * from the array list.
+   * Randomly chooses a x-position for the star to start.
+   * Randomly assignes a size to the star between radius 0 and 1.5;
+   */
   private void updateBackground(){
     int starRange = 800;
     double starScale = 1.5;
@@ -458,6 +666,15 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Randomly creates powerUps according to a probability that move 
+   * from top to bottom of the screen.
+   * Checks if the main/additional shooter has collided with a powerUp
+   * and assignes the shooter relevant power, as well as play wav file.
+   * Gives main shooter preference if both players touvhed the same powerUp.
+   * Loops through powerUp list to see if a powerUp collides with bunker and 
+   * deletes powerUp if collision is true.
+   */
   private void updatePowerUpMovement(){
     int powerUpScale = 15000;
     int x = (int)(Math.random() *powerUpScale);
@@ -513,6 +730,10 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Renders information elements in game such as score, live and round number.
+   * 
+   */
   private void renderUI(){
     StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
     StdDraw.text(-580, 325, "Score: " + score);
@@ -530,7 +751,14 @@ public class InvaderGameState{
   
     StdDraw.text(580, 325, "Round: " + round);
   }
-
+  
+  /**
+   * Checks if any enemy has touched main shooter = gameOver.
+   * If any enemy touches additional shooter it destroys second
+   * player.
+   * Check if main player has 0 lives = gameOver, play wav file.
+   * Destroys additional player if its lives = 0.
+   */
   private void checkGameOver(){
     for (int i = 0; i < enemiesList.size(); i++) {
       Enemy currentEnemy = enemiesList.get(i);
@@ -586,12 +814,30 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * Checks if the size of the enemy array list is 0 which means the
+   * player wins.
+   */
   private void checkWin(){
     if (enemiesList.size() == 0) {
       win = true;
     }
   }
 
+  /**
+   * Checks for the all the possible key presses that can influence the
+   * main player.
+   * Inverting of velocity of shooter.
+   * Stopping movement shooter.
+   * Inverting shooter barrel velocity.
+   * Stopping shooter barrel movement.
+   * Sets barrel velocity to 0 if both left and right barrel movement buttons
+   * are pressed simultaniously.
+   * Shooting of a particluar type of missile that requiresa timer.
+   * i.e. all missiles excl. gattling gun, missile is shot according to 
+   * players current powerUp value , play wav file.
+   * Removes timer if powerUp is gattling gun.
+   */
   private void mainShooterKeyPresses() {
   
     if (StdDraw.isKeyPressed(VK_Z)) {
@@ -651,7 +897,20 @@ public class InvaderGameState{
     }
   }
 
-
+  /**
+   * Checks for the all the possible key presses that can influence the
+   * additional player.
+   * Inverting of velocity of shooter.
+   * Stopping movement shooter.
+   * Inverting shooter barrel velocity.
+   * Stopping shooter barrel movement.
+   * Sets barrel velocity to 0 if both left and right barrel movement buttons
+   * are pressed simultaniously.
+   * Shooting of a particluar type of missile that requiresa timer.
+   * i.e. all missiles excl. gattling gun, missile is shot according to 
+   * players current powerUp value , play wav file.
+   * Removes timer if powerUp is gattling gun.
+   */
   private void additionalShooterKeyPresses (){
     if (StdDraw.isKeyPressed(VK_NUMPAD1)) {
       additionalShooter.setXVelocity(-SHOOTER_VELOCITY);
@@ -702,6 +961,13 @@ public class InvaderGameState{
     }
   }
   
+  /**
+   * Adds specific powerUp missiles to missile array list according
+   * to which powerUp the shooter object currently has assigned to it.
+   * Each powerUp has a specific amount of missiles the player is allowed to
+   * shoot before the power is depleted. When a specific powerUp missile is
+   * added to the array list the counter is decreased.
+   */
   private void instantiateMissile(Shooter shooter){
     switch(shooter.getPower()){
       case -1: 
@@ -735,18 +1001,30 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * @return the score of the player
+   */
   public int getScore(){
     return  score;
   }
 
+  /**
+   * @return the current round the player is on
+   */
   public int getRound(){
     return round;
   }
 
+  /**
+   * @return a boolean if the game is over ot not
+   */
   public boolean isGameOver(){
     return gameOver;
   }
-
+  
+  /**
+   * @return a boolean stating wether the player won or lost
+   */
   public boolean isWin(){
     return win;
   }
