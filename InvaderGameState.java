@@ -1001,30 +1001,19 @@ public class InvaderGameState{
     }
   }
 
-  /**
-   * @return the score of the player
-   */
   public int getScore(){
     return  score;
   }
 
-  /**
-   * @return the current round the player is on
-   */
   public int getRound(){
     return round;
   }
 
-  /**
-   * @return a boolean if the game is over ot not
-   */
+
   public boolean isGameOver(){
     return gameOver;
   }
   
-  /**
-   * @return a boolean stating wether the player won or lost
-   */
   public boolean isWin(){
     return win;
   }
