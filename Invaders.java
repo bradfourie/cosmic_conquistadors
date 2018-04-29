@@ -1,3 +1,13 @@
+/**
+ * This class switches between the different game screen's from the main menu, inGame screen,
+ * gameover screen, winning screen and next round screen.
+ * 
+ * @author Daniel Banks
+ * @author Bradley Fourie
+ * @author Heinrich Benz
+ * 
+ * @see InvaderGameState
+ */
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +17,14 @@ import static java.awt.event.KeyEvent.VK_Q;
 import static java.awt.event.KeyEvent.VK_SPACE;
 
 public class Invaders {
-  
+  /**
+   * Main method that is called when the game starts.
+   * Sets the canvas of the gameScreen.
+   * Switches between main menu and game screen when spacebar is pressed.
+   * Displays relevant end game screen depending on if the player won or lost.
+   * Initializes next round of game.
+   * Exits game if q is pressed
+   */
   public static void main(String[] args){
     StdDraw.setCanvasSize(1280,720);
     StdDraw.setXscale(-640,640);
@@ -59,7 +76,10 @@ public class Invaders {
     System.exit(0);
   }
   
-  
+  /**
+   * Renders main menu when game is first opened or when player dies.
+   * Imports custom font to be used throughout the game screens.
+   */
   public static void renderMenu(boolean isColour){
     try {
       //create the font to use. Specify the size!
@@ -96,6 +116,14 @@ public class Invaders {
     StdDraw.show(30);
   }
   
+  /**
+   * Displays and renders the end game/ winner screen depending on if the player won or not.
+   * Displays the leaderboard of the top scores from a text file.
+   * DIsplays the player score during that game.
+   * 
+   * @param score the total score the player recived at the end of the game
+   * @param isWin boolean value showing of the player won or lost the game
+   */
   public static void renderEndGame(int score, boolean isWin){
     if(!isWin){
     for(int i = 0 ; i < 800; i ++){
@@ -132,6 +160,11 @@ public class Invaders {
       StdDraw.clear();
   }
 
+  /**
+   * Renders and draws the screen when the player goes to the next round.
+   * 
+   * @param round which round the player is currently on
+   */
   public static void renderEndRound( int round){
     StdDraw.clear(StdDraw.BLACK);
     StdDraw.setPenColor(StdDraw.WHITE); 

@@ -109,7 +109,7 @@ public class InvaderGameState{
     
       renderUI();
     
-      StdDraw.show(30);
+      StdDraw.show(25);
       StdDraw.clear(StdDraw.BLACK);
       gameLoopCounter++;
     }
@@ -1001,19 +1001,30 @@ public class InvaderGameState{
     }
   }
 
+  /**
+   * @return the current score of the player
+   */
   public int getScore(){
     return  score;
   }
 
+  /**
+   * @return the current round
+   */
   public int getRound(){
     return round;
   }
 
-
+  /**
+   * @return a boolean representing if the game is over or not
+   */
   public boolean isGameOver(){
     return gameOver;
   }
   
+  /**
+   * @return a boolean representing if the player has won or lost
+   */
   public boolean isWin(){
     return win;
   }
