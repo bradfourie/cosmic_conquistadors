@@ -832,11 +832,11 @@ public class InvaderGameState{
    * Inverting shooter barrel velocity.
    * Stopping shooter barrel movement.
    * Sets barrel velocity to 0 if both left and right barrel movement buttons
-   * are pressed simultaniously.
-   * Shooting of a particluar type of missile that requiresa timer.
-   * i.e. all missiles excl. gattling gun, missile is shot according to 
+   * are pressed simultaneously.
+   * Shooting of a particular type of missile that requires a timer.
+   * i.e. all missiles excluding gatling gun, missile is shot according to 
    * players current powerUp value , play wav file.
-   * Removes timer if powerUp is gattling gun.
+   * Removes timer if powerUp is gatling gun.
    */
   private void mainShooterKeyPresses() {
   
@@ -905,11 +905,11 @@ public class InvaderGameState{
    * Inverting shooter barrel velocity.
    * Stopping shooter barrel movement.
    * Sets barrel velocity to 0 if both left and right barrel movement buttons
-   * are pressed simultaniously.
-   * Shooting of a particluar type of missile that requiresa timer.
-   * i.e. all missiles excl. gattling gun, missile is shot according to 
+   * are pressed simultaneously.
+   * Shooting of a particular type of missile that requires a timer.
+   * i.e. all missiles excluding gatling gun, missile is shot according to 
    * players current powerUp value , play wav file.
-   * Removes timer if powerUp is gattling gun.
+   * Removes timer if powerUp is gatling gun.
    */
   private void additionalShooterKeyPresses (){
     if (StdDraw.isKeyPressed(VK_NUMPAD1)) {
