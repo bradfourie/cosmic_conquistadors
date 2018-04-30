@@ -8,7 +8,8 @@ This declaration is applicable to <Project Cosmic Conquistadors> of <Computer Sc
 
 By including this document as part of my assignment submission, we, 
 Bradley Fourie, (Student number <20795629>)
-, Daniel Banks (Student Number <20784678>)	[repeat for each student]
+, Daniel Banks (Student Number <20784678>)
+, Heinrich Benz (Student Number <20988249>) [repeat for each student]
 declare the following:
 
 [BEGIN DECLARATION]
