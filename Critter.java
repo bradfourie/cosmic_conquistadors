@@ -6,7 +6,7 @@
  * @author Bradley Fourie
  * @author Heinrich Benz
  * @author Daniel Banks
- * @see Critter
+ * @see DefaultCritter
  */
 
 public interface Critter {

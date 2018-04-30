@@ -1,7 +1,7 @@
 
 /**
- * Extends enemy and is a model object for a bunker that is to the enemies advantage
- * bunkers destroy powerups, have lives and enemy missiles can pass through them.
+ * Extends enemy and is a model object for a bunker that is to the enemies advantage,
+ * bunkers destroy power ups, have lives and enemy missiles can pass through them.
  * 
  * @author Bradley Fourie
  * @author Heinrich Benz

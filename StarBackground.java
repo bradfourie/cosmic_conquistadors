@@ -4,19 +4,10 @@
  * @author Daniel Banks
  * @see InvaderGameState
  */
-public class StarBackground {
+public class StarBackground extends DefaultCritter{
   
-  /**
-   * Constant value corresponding to the velocity of the stars moving in the background
-   */
-   private final double velocity = 15;
-  
-   public double x;
-   public double y;
-   public double radius;
-
    /**
-    * Class constructor that creates a new object of the StarBackground class with a specific 
+    * Creates a new object of the StarBackground class with a specific 
     * starting x,y position as well as a radius for the star.
     * 
     * @param x is the starting x-coordinate of the star
@@ -24,9 +15,7 @@ public class StarBackground {
     * @param radius the radius of the star
     */
    public StarBackground(int x, int y, double radius){
-       this.x = x;
-       this.y = y;
-       this.radius = radius;
+       super(x, y, 0, -15, radius);
    }
 
    /**
@@ -35,16 +24,18 @@ public class StarBackground {
     * @return the top most y-coordinate of the star
     */
    public double getTailYCoord(){
-       return (y- radius);
+       return (super.yCoord - radius);
    }
 
-   /**
-    * Calculates the new y-coordinate of the star and renders it.
-    */
+
    public void move(){
-       y = y - velocity;
+       super.yCoord = super.yCoord + yVelocity;
+       render();
+   }
+   
+   public void render(){
        StdDraw.setPenColor(StdDraw.WHITE);
-       StdDraw.filledSquare(x , y , radius);
+       StdDraw.filledSquare(xCoord , yCoord, radius);
    }
 
 }

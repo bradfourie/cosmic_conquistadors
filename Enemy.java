@@ -112,10 +112,6 @@ public class Enemy extends DefaultCritter {
     private void invertVelocity(){
         super.xVelocity = -super.xVelocity;
     }
-
-    public double getXCoord(){
-        return super.xCoord;
-    }
     
     public int getLives(){
         return lives;

@@ -1,4 +1,3 @@
-
 /**
  * A class that extends DefaultCritter and serves as a model object
  * for a shooter with a barrel that can rotate and that can shoot
@@ -26,11 +25,12 @@ public class Shooter extends DefaultCritter{
     private boolean isPlayerOne;
 
     /**
-     * Class constructor that creates a shooter using the DefaultCritter class as a basis, also adds extra
+     * Creates a shooter using the DefaultCritter class as a basis, also adds extra
      * properties to the shooter to give the shooter a barrel that can move around with a radial velocity, and
-     * also gives the shooter the ability to obtain various powerups, with powerUpCounter specifying how many
-     * missiles of that powerup type the shooter has left before his powerup expires. The initial powerup of
-     * the shooter is set to a normal missile and its barrel points straight upwards.
+     * also gives the shooter the ability to obtain various power ups, with powerUpCounter specifying how many
+     * missiles of that power up type the shooter has left before his power up expires. The initial power up of
+     * the shooter is set to a normal missile and its barrel points straight upwards at a 90 angle degree from
+     * the horizontal.
      *
      * @param xCoord the x coordinate of the shooter
      * @param yCoord the y coordinate of the shooter
@@ -53,7 +53,7 @@ public class Shooter extends DefaultCritter{
     }
 
     /**
-     * Receives an integer powerup which specifies which type of powerup the shooter currently has, and gives
+     * Receives an integer powerUp which specifies which type of powerup the shooter currently has, and gives
      * the shooter a certain amount of those missiles (if applicable - powerUpCounter specifies how many missiles
      * of a certain type the shooter has before the powerup expires), otherwise it increases the powerups lives
      * if the shooter has gained an extra life.
@@ -159,7 +159,7 @@ public class Shooter extends DefaultCritter{
      * @param startYCoord the starting yCoord of the shooter
      */
     public void resetState(int startXCoord, int startYCoord) {
-        powerUp = -1;
+        powerUp = NORMAL_MISSILE;
         powerUpCounter = 0;
         xCoord = startXCoord;
         yCoord = startYCoord;

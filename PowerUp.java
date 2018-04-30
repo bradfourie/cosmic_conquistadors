@@ -1,4 +1,3 @@
-
 /**
  * A class that extends DefaultCritter and serves as a model object
  * for a powerup with different effects on the shooter depending on its type.
@@ -9,14 +8,14 @@
 
 public class PowerUp extends DefaultCritter{
   /**
-   * Constant values that correspond to the type of powerup
+   * Constant values that correspond to the type of power up.
    */
   private final int NORMAL_MISSILE = -1, GATLING_MISSILE = 0, TRI_MISSILE = 1, SUPER_MISSILE = 2, FAST_MISSILE = 3, EXTRA_LIFE = 4;
 
   private int power;
 
   /**
-   * Class constructor that creates a powerup at the specified coordinates, powerups have default
+   * Creates a powerup at the specified coordinates, power ups have default
    * y velocities with a magnitude of 8, the constructor generates a random number and assigns a type
    * to the powerup using the method choosePowerUp.
    *
@@ -31,8 +30,8 @@ public class PowerUp extends DefaultCritter{
   }
 
   /**
-   * A method that recieves a variable selection as its input and assigns a type to
-   * the powerup according to the interval in which selection lies.
+   * Receives a variable selection as its input and assigns a type to
+   * the power up according to the interval in which selection lies.
    *
    * @param selection the randomly generated number which is used to assign a type
    *                  to the powerup
@@ -55,17 +54,8 @@ public class PowerUp extends DefaultCritter{
     }
   }
 
-  public double getYCoord(){
-    return yCoord;
-  }
-  public double getXCoord(){
-    return xCoord;
-  }
   public int getPower(){
     return power;
-  }
-  public double getRadius(){
-    return radius;
   }
 
   /**

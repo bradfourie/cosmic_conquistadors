@@ -35,7 +35,6 @@ public class Missile extends DefaultCritter{
     /**
      * Indicates that the bullet has bounced and cannot bounce again,
      * inverts the and and x velocity of the bullet to simulate bouncing
-     *
      */
     public void wallBounce(){
         numBounced++;
@@ -43,22 +42,6 @@ public class Missile extends DefaultCritter{
         angle=-angle;
     }
 
-    public double getXCoord(){
-        return super.xCoord;
-    }
-
-    public double getYCoord(){
-        return super.yCoord;
-    }
-
-    public double getRadius(){
-        return super.radius;
-    }
-
-    /**
-     *  Changes the pen colour to yellow,
-     *  moves the missile in both the X direction and Y direction
-     */
     public void move(){
         StdDraw.setPenColor(StdDraw.YELLOW);
         super.xCoord = super.xCoord + super.xVelocity;

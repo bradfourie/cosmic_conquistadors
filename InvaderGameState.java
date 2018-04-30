@@ -354,7 +354,6 @@ public class InvaderGameState{
    * Play a wav file if an enemy is removed from the array list.
    */
   private void updateEnemyMovement(){
-    //loop through enemiesList and update each enemies movement
     boolean isEdge = false;
   
     for(int a = 0 ; a < enemiesList.size() ; a++){

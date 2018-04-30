@@ -1,4 +1,3 @@
-
 /**
  * A model object that extends the enemy class that has properties to create
  * an enemy that is smaller and and has less lives than a heavy enemy.

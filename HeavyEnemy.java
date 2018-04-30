@@ -1,4 +1,3 @@
-
 /**
  * A model object that extends the enemy class that has properties to create
  * an enemy that is larger, and that has more lives than a normal enemy.
@@ -24,10 +23,6 @@ public class HeavyEnemy extends Enemy {
         super(xCoord, yCoord, 5, -50, 20 , 5, 1500);
     }
 
-    /**
-     * A method that renders the heavy enemy at a specific coordinate point on the canvas using the picture method
-     * of StdDraw, the width and height of the sprite to be drawn is specified as the diameter of the sprite.
-     */
     public void render(){
         StdDraw.picture(super.xCoord,super.yCoord,"EnemyYellow.png",super.radius*2,super.radius*2);
     }
