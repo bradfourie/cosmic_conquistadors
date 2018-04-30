@@ -4,11 +4,11 @@ throughout the document (including the details required at the end of the
 document).
 ----------------------------------------------------------------------------
 
-This declaration is applicable to <Insert assignment detail> of <Insert
-course/module name> in <Insert Year>
+This declaration is applicable to <Project Cosmic Conquistadors> of <Computer Science E214> in <2018>
 
 By including this document as part of my assignment submission, we, 
-<Insert full name>, (Student number <Insert student number>) [repeat for each student]
+Bradley Fourie, (Student number <20795629>)
+ 	[repeat for each student]
 declare the following:
 
 [BEGIN DECLARATION]
@@ -55,5 +55,6 @@ detecting plagiarism in other courses.
 
 Acknowledgement of sources
 --------------------------
-
-<Provide details as required here>
+Used in the HighScores Class 
+	Singh, C. (2018). How to read file in Java using BufferedReader. [online] beginnersbook.com. Available at: https://beginnersbook.com/2014/01/how-to-read-file-in-java-using-bufferedreader/ [Accessed 12 Apr. 2018].
+ Singh, C. (2018). How to sort ArrayList in Java. [online] beginnersbook.com. Available at: https://beginnersbook.com/2013/12/how-to-sort-arraylist-in-java/ [Accessed 12 Apr. 2018].
