@@ -34,6 +34,6 @@ public class NormalMissile extends Missile{
   }
   
   public void render(){
-    StdDraw.picture(super.xCoord,super.yCoord,"BulletYellow.png",super.radius*5,super.radius*2, super.angle);
+    StdDraw.picture(super.xCoord,super.yCoord,"BulletYellow.png",super.radius*5,super.radius*2, super.angle*180/Math.PI);
   }
 }
